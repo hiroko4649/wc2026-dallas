@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIFA ワールドカップ 2026 全試合スケジュール（ダラス時間）</title>
+<style>
+  :root {
+    --bg: #07101f;
+    --surface: #0e1c30;
+    --surface2: #162540;
+    --border: #1e3050;
+    --text: #e8edf5;
+    --muted: #6e85a0;
+    --gold: #f5c518;
+    --green: #22c55e;
+    --blue: #3b82f6;
+    --purple: #a855f7;
+    --teal: #14b8a6;
+    --orange: #f97316;
+    --dallas: #00c4e8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI','Helvetica Neue',Arial,sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(160deg,#060f22 0%,#0e2040 60%,#091830 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 22px 24px 16px;
+    text-align: center;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.6);
+  }
+  header .flag-row { font-size: 1.8rem; margin-bottom: 6px; }
+  header h1 { font-size: clamp(1.1rem,2.8vw,1.8rem); font-weight: 900; color: var(--gold); letter-spacing: 0.02em; margin-bottom: 3px; }
+  header p  { font-size: 0.8rem; color: var(--muted); }
+
+  /* ── FILTER BAR ── */
+  .controls {
+    background: var(--surface);
+    padding: 10px 20px;
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 86px; z-index: 99;
+  }
+  .controls label { font-size: 0.75rem; color: var(--muted); }
+  .filter-btn {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); padding: 4px 13px; border-radius: 20px;
+    cursor: pointer; font-size: 0.78rem; transition: all .14s;
+  }
+  .filter-btn:hover { opacity: .85; }
+  .filter-btn.active { color: #fff; }
+  .filter-btn.s-group.active { background:#166534; border-color:var(--green); }
+  .filter-btn.s-r32.active   { background:#1e3a8a; border-color:var(--blue);   }
+  .filter-btn.s-r16.active   { background:#134e4a; border-color:var(--teal);   }
+  .filter-btn.s-qf.active    { background:#7c2d12; border-color:var(--orange); }
+  .filter-btn.s-sf.active    { background:#581c87; border-color:var(--purple); }
+  .filter-btn.s-final.active { background:#78350f; border-color:var(--gold); color:#000; }
+  .filter-btn.s-dallas.active{ background:#0e4d5e; border-color:var(--dallas); }
+
+  /* ── MAIN ── */
+  .main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: flex; gap: 20px; flex-wrap: wrap; align-items: center;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 22px; margin-bottom: 28px;
+  }
+  .stat { text-align: center; }
+  .stat-n { font-size: 1.6rem; font-weight: 900; color: var(--gold); line-height: 1; }
+  .stat-l { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
+  .stats-note { margin-left: auto; font-size: 0.72rem; color: var(--muted); line-height: 1.6; text-align: right; }
+
+  /* ── PHASE BLOCK ── */
+  .phase-block { margin-bottom: 40px; }
+
+  /* ── DAY HEADER ── */
+  .day-header {
+    display: flex; align-items: baseline; gap: 14px;
+    margin: 28px 0 16px;
+    padding: 12px 20px;
+    background: var(--surface2);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 8px 8px 0;
+  }
+  .day-header .day-date {
+    font-size: 1.55rem; font-weight: 900; color: var(--text); letter-spacing: -0.02em; line-height: 1;
+  }
+  .day-header .day-weekday {
+    font-size: 1rem; font-weight: 700; color: var(--muted);
+  }
+  .day-header .day-note {
+    font-size: 0.72rem; color: var(--gold);
+    background: rgba(245,197,24,0.1); border: 1px solid rgba(245,197,24,0.3);
+    padding: 2px 8px; border-radius: 10px; margin-left: 4px;
+  }
+  .day-header.phase-group { border-left-color: var(--green); }
+  .day-header.phase-r32   { border-left-color: var(--blue);   }
+  .day-header.phase-r16   { border-left-color: var(--teal);   }
+  .day-header.phase-qf    { border-left-color: var(--orange); }
+  .day-header.phase-sf    { border-left-color: var(--purple); }
+  .day-header.phase-final { border-left-color: var(--gold);   }
+
+  /* ── PHASE TITLE ── */
+  .phase-title-row {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 6px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase-badge {
+    padding: 3px 12px; border-radius: 4px; font-size: 0.7rem;
+    font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  }
+  .badge-group { background:rgba(34,197,94,.15); color:var(--green); border:1px solid rgba(34,197,94,.35); }
+  .badge-r32   { background:rgba(59,130,246,.15); color:var(--blue);   border:1px solid rgba(59,130,246,.35); }
+  .badge-r16   { background:rgba(20,184,166,.15); color:var(--teal);   border:1px solid rgba(20,184,166,.35); }
+  .badge-qf    { background:rgba(249,115,22,.15); color:var(--orange); border:1px solid rgba(249,115,22,.35); }
+  .badge-sf    { background:rgba(168,85,247,.15); color:var(--purple); border:1px solid rgba(168,85,247,.35); }
+  .badge-3rd   { background:rgba(245,197,24,.12); color:#d4a800;       border:1px solid rgba(245,197,24,.3);  }
+  .badge-final { background:rgba(245,197,24,.25); color:var(--gold);   border:1px solid rgba(245,197,24,.55); }
+  .phase-name  { font-size: 1.05rem; font-weight: 800; }
+  .phase-span  { font-size: 0.78rem; color: var(--muted); margin-left: auto; }
+
+  /* ── TIMESLOT ROW ── */
+  .timeslot {
+    display: flex; gap: 0; align-items: stretch;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .timeslot-label {
+    min-width: 90px; max-width: 90px;
+    background: var(--surface2);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 10px 6px;
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .tl-time { font-size: 1.05rem; font-weight: 900; color: var(--text); line-height: 1.1; text-align: center; }
+  .tl-ampm { font-size: 0.7rem; color: var(--muted); font-weight: 600; }
+  .tl-tz   { font-size: 0.62rem; color: var(--muted); margin-top: 2px; }
+  .timeslot-cards {
+    display: flex; flex-wrap: wrap; gap: 0;
+    flex: 1;
+  }
+
+  /* ── MATCH CARD ── */
+  .match-card {
+    flex: 1 1 260px;
+    padding: 12px 14px;
+    border-right: 1px solid var(--border);
+    position: relative;
+    transition: background .12s;
+    min-width: 0;
+  }
+  .match-card:last-child { border-right: none; }
+  .match-card:hover { background: rgba(255,255,255,.03); }
+  .match-card.dallas-venue {
+    background: linear-gradient(135deg, rgba(0,196,232,.06) 0%, transparent 100%);
+  }
+  .match-card.final-card {
+    background: linear-gradient(135deg, rgba(245,197,24,.07) 0%, transparent 100%);
+  }
+  .dallas-tag {
+    display: inline-block;
+    font-size: 0.62rem; color: var(--dallas); font-weight: 800;
+    background: rgba(0,196,232,.15); border: 1px solid rgba(0,196,232,.4);
+    padding: 1px 6px; border-radius: 8px;
+  }
+  .card-top {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 8px;
+  }
+  .match-card.dallas-venue .card-venue {
+    color: var(--dallas);
+    font-weight: 700;
+  }
+  .card-num  { font-size: 0.63rem; color: var(--muted); background: rgba(255,255,255,.06); padding: 1px 5px; border-radius: 3px; }
+  .card-grp  { font-size: 0.65rem; font-weight: 700; padding: 1px 7px; border-radius: 3px; background:rgba(34,197,94,.12); color:var(--green); }
+  .card-grp.grp-r32   { background:rgba(59,130,246,.12); color:var(--blue); }
+  .card-grp.grp-r16   { background:rgba(20,184,166,.12); color:var(--teal); }
+  .card-grp.grp-qf    { background:rgba(249,115,22,.12); color:var(--orange); }
+  .card-grp.grp-sf    { background:rgba(168,85,247,.12); color:var(--purple); }
+  .card-grp.grp-final { background:rgba(245,197,24,.18); color:var(--gold); }
+  .card-teams {
+    font-size: 0.9rem; font-weight: 700; line-height: 1.35;
+    margin-bottom: 6px; color: var(--text);
+  }
+  .vs { color: var(--muted); font-weight: 400; font-size: 0.75rem; margin: 0 3px; }
+  .card-venue { font-size: 0.68rem; color: var(--muted); }
+  .card-venue::before { content: '📍'; margin-right: 3px; font-size: .65rem; }
+
+  /* simultaneous note */
+  .simul-note {
+    font-size: 0.62rem; color: var(--gold);
+    background: rgba(245,197,24,.08);
+    border: 1px solid rgba(245,197,24,.2);
+    padding: 1px 6px; border-radius: 6px;
+    display: inline-block; margin-bottom: 6px;
+  }
+
+  /* ── FINAL special ── */
+  .final-mega {
+    border: 2px solid var(--gold);
+    border-radius: 12px;
+    padding: 24px 28px;
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(245,197,24,.06) 100%);
+    margin-top: 12px;
+  }
+  .final-mega .fm-time { font-size: 2rem; font-weight: 900; color: var(--gold); }
+  .final-mega .fm-teams { font-size: 1.2rem; font-weight: 700; margin: 8px 0 6px; }
+  .final-mega .fm-venue { font-size: 0.8rem; color: var(--muted); }
+  .final-mega .fm-note  { margin-top: 10px; font-size: 0.72rem; color: var(--gold); opacity: .7; }
+
+
+  /* ── TODAY HIGHLIGHT ── */
+  .day-header.today {
+    background: linear-gradient(135deg, rgba(245,197,24,.18) 0%, rgba(245,197,24,.06) 100%);
+    border-left-color: var(--gold) !important;
+    box-shadow: 0 0 0 1px rgba(245,197,24,.3);
+  }
+  .day-header.today .day-date { color: var(--gold); }
+  .today-banner {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--gold); color: #000;
+    font-size: 0.72rem; font-weight: 900;
+    padding: 3px 10px; border-radius: 12px;
+    margin-left: 8px; animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50%      { opacity: .65; }
+  }
+  .match-card.today-card {
+    background: linear-gradient(135deg, rgba(245,197,24,.1) 0%, transparent 100%) !important;
+    border-top: 2px solid var(--gold);
+  }
+  .today-match-tag {
+    display: inline-block;
+    font-size: 0.6rem; font-weight: 900; color: #000;
+    background: var(--gold); padding: 1px 6px;
+    border-radius: 6px; margin-left: 6px;
+    vertical-align: middle;
+  }
+  #today-jump {
+    position: fixed; bottom: 24px; right: 24px; z-index: 200;
+    background: var(--gold); color: #000;
+    border: none; border-radius: 50px;
+    padding: 10px 20px; font-size: 0.85rem; font-weight: 900;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    display: none;
+    transition: opacity .2s;
+  }
+  #today-jump:hover { opacity: .85; }
+  #no-games-today {
+    display: none;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 22px; margin-bottom: 20px;
+    font-size: 0.9rem; color: var(--muted); text-align: center;
+  }
+
+  /* ── MATCH RESULTS ── */
+  .match-result {
+    margin-top: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .res-score {
+    font-size: 1.3rem; font-weight: 900; color: var(--text);
+    letter-spacing: 0.05em;
+  }
+  .res-badge {
+    font-size: 0.62rem; font-weight: 800; padding: 2px 7px;
+    border-radius: 6px;
+  }
+  .res-finished .res-badge { background: rgba(255,255,255,.1); color: var(--muted); }
+  .res-finished .res-score { color: var(--gold); }
+  .res-live .res-badge { background: #ef4444; color: #fff; animation: pulse 1s infinite; }
+  .res-live .res-score { color: #fff; }
+  .res-done { background: rgba(255,255,255,.08) !important; color: var(--muted) !important; }
+
+  /* ── API STATUS ── */
+  #api-status {
+    font-size: 0.7rem; color: var(--muted);
+    margin-left: auto; padding: 3px 10px;
+    background: var(--surface2); border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 640px) {
+    .timeslot-label { min-width: 70px; max-width: 70px; }
+    .tl-time { font-size: 0.85rem; }
+    .match-card { flex-basis: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+    .match-card:last-child { border-bottom: none; }
+    .controls { top: 72px; }
+    .day-header .day-date { font-size: 1.2rem; }
+    .phase-span { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<button id="today-jump" onclick="scrollToToday()">⚽ 今日の試合へ</button>
+<div id="no-games-today">本日（<span id="today-label"></span>）は試合がありません</div>
+<header>
+  <div class="flag-row">🇺🇸 🇲🇽 🇨🇦</div>
+  <h1>⚽ FIFA ワールドカップ 2026 全試合スケジュール</h1>
+  <p>ダラス時間（CDT / UTC−5） ｜ 全104試合 ｜ 2026年6月11日〜7月19日</p>
+</header>
+
+<div class="controls">
+  <label>ステージ：</label>
+  <button class="filter-btn s-group active" onclick="toggleStage('group',this)">グループ</button>
+  <button class="filter-btn s-r32 active"   onclick="toggleStage('r32',this)">R32</button>
+  <button class="filter-btn s-r16 active"   onclick="toggleStage('r16',this)">R16</button>
+  <button class="filter-btn s-qf active"    onclick="toggleStage('qf',this)">準々決勝</button>
+  <button class="filter-btn s-sf active"    onclick="toggleStage('sf',this)">準決勝</button>
+  <button class="filter-btn s-final active" onclick="toggleStage('final',this)">決勝</button>
+  <button class="filter-btn s-dallas" onclick="toggleDallas(this)" style="margin-left:10px;border-color:var(--dallas);color:var(--dallas)">🤠 ダラスのみ</button>
+  <span id="api-status">結果を読み込み中…</span>
+</div>
+
+<div class="main">
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-n">104</div><div class="stat-l">総試合数</div></div>
+  <div class="stat"><div class="stat-n">48</div><div class="stat-l">参加チーム</div></div>
+  <div class="stat"><div class="stat-n">16</div><div class="stat-l">スタジアム</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--dallas)">9</div><div class="stat-l">🤠 ダラス開催</div></div>
+  <div class="stat"><div class="stat-n">39</div><div class="stat-l">大会日数</div></div>
+  <div class="stats-note">CDT = ET − 1時間<br>🤠 ダラス・スタジアム（アーリントン）がダラスの試合会場</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     GROUP STAGE
+════════════════════════════════════════════════ -->
+<div class="phase-block" data-stage="group">
+  <div class="phase-title-row">
+    <span class="phase-badge badge-group">グループステージ</span>
+    <span class="phase-name">グループステージ</span>
+    <span class="phase-span">6月11日（木）〜 6月27日（土）</span>
+  </div>
+
+  <!-- 6/11 -->
+  <div class="day-header phase-group" data-date="2026-06-11">
+    <span class="day-date">6月11日</span><span class="day-weekday">木曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#1</span><span class="card-grp">A組</span></div><div class="card-teams">🇲🇽 メキシコ <span class="vs">vs</span> 🇿🇦 南アフリカ</div><div class="card-venue">エスタディオ・アステカ（メキシコシティ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#2</span><span class="card-grp">A組</span></div><div class="card-teams">🇰🇷 韓国 <span class="vs">vs</span> 🇨🇿 チェコ</div><div class="card-venue">エスタディオ・アクロン（サポパン）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/12 -->
+  <div class="day-header phase-group" data-date="2026-06-12">
+    <span class="day-date">6月12日</span><span class="day-weekday">金曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#3</span><span class="card-grp">B組</span></div><div class="card-teams">🇨🇦 カナダ <span class="vs">vs</span> 🇧🇦 ボスニア・ヘルツェゴビナ</div><div class="card-venue">BMOフィールド（トロント）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#4</span><span class="card-grp">D組</span></div><div class="card-teams">🇺🇸 USA <span class="vs">vs</span> 🇵🇾 パラグアイ</div><div class="card-venue">SoFiスタジアム（イングルウッド）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/13 -->
+  <div class="day-header phase-group" data-date="2026-06-13">
+    <span class="day-date">6月13日</span><span class="day-weekday">土曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#5</span><span class="card-grp">B組</span></div><div class="card-teams">🇶🇦 カタール <span class="vs">vs</span> 🇨🇭 スイス</div><div class="card-venue">リーバイス・スタジアム（サンタクララ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#6</span><span class="card-grp">C組</span></div><div class="card-teams">🇧🇷 ブラジル <span class="vs">vs</span> 🇲🇦 モロッコ</div><div class="card-venue">メットライフ・スタジアム（イーストラザーフォード）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#7</span><span class="card-grp">C組</span></div><div class="card-teams">🇭🇹 ハイチ <span class="vs">vs</span> 🏴󠁧󠁢󠁳󠁣󠁴󠁿 スコットランド</div><div class="card-venue">ジレット・スタジアム（フォックスボロ）</div></div>
+    </div>
+  </div>
+
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">深夜<br>11:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#8</span><span class="card-grp">D組</span></div><div class="card-teams">🇦🇺 オーストラリア <span class="vs">vs</span> 🇹🇷 トルコ</div><div class="card-venue">BCプレイス（バンクーバー）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/14 -->
+  <div class="day-header phase-group" data-date="2026-06-14">
+    <span class="day-date">6月14日</span><span class="day-weekday">日曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#9</span><span class="card-grp">E組</span></div><div class="card-teams">🇩🇪 ドイツ <span class="vs">vs</span> 🇨🇼 キュラソー</div><div class="card-venue">NRGスタジアム（ヒューストン）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#10</span><span class="card-grp">F組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">🇳🇱 オランダ <span class="vs">vs</span> 🇯🇵 日本</div><div class="card-venue">ダラス・スタジアム（アーリントン）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>6:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#11</span><span class="card-grp">E組</span></div><div class="card-teams">🇨🇮 コートジボワール <span class="vs">vs</span> 🇪🇨 エクアドル</div><div class="card-venue">リンカーン・フィナンシャル・フィールド（フィラデルフィア）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#12</span><span class="card-grp">F組</span></div><div class="card-teams">🇸🇪 スウェーデン <span class="vs">vs</span> 🇹🇳 チュニジア</div><div class="card-venue">エスタディオBBVA（モンテレー）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/15 -->
+  <div class="day-header phase-group" data-date="2026-06-15">
+    <span class="day-date">6月15日</span><span class="day-weekday">月曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午前<br>11:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#13</span><span class="card-grp">H組</span></div><div class="card-teams">🇪🇸 スペイン <span class="vs">vs</span> 🇨🇻 カーボベルデ</div><div class="card-venue">メルセデス・ベンツ・スタジアム（アトランタ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#14</span><span class="card-grp">G組</span></div><div class="card-teams">🇧🇪 ベルギー <span class="vs">vs</span> 🇪🇬 エジプト</div><div class="card-venue">ルーメン・フィールド（シアトル）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#15</span><span class="card-grp">H組</span></div><div class="card-teams">🇸🇦 サウジアラビア <span class="vs">vs</span> 🇺🇾 ウルグアイ</div><div class="card-venue">ハードロック・スタジアム（マイアミガーデンズ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#16</span><span class="card-grp">G組</span></div><div class="card-teams">🇮🇷 イラン <span class="vs">vs</span> 🇳🇿 ニュージーランド</div><div class="card-venue">SoFiスタジアム（イングルウッド）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/16 -->
+  <div class="day-header phase-group" data-date="2026-06-16">
+    <span class="day-date">6月16日</span><span class="day-weekday">火曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#17</span><span class="card-grp">I組</span></div><div class="card-teams">🇫🇷 フランス <span class="vs">vs</span> 🇸🇳 セネガル</div><div class="card-venue">メットライフ・スタジアム（イーストラザーフォード）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#18</span><span class="card-grp">I組</span></div><div class="card-teams">🇮🇶 イラク <span class="vs">vs</span> 🇳🇴 ノルウェー</div><div class="card-venue">ジレット・スタジアム（フォックスボロ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#19</span><span class="card-grp">J組</span></div><div class="card-teams">🇦🇷 アルゼンチン <span class="vs">vs</span> 🇩🇿 アルジェリア</div><div class="card-venue">アローヘッド・スタジアム（カンザスシティ）</div></div>
+    </div>
+  </div>
+
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">深夜<br>11:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#20</span><span class="card-grp">J組</span></div><div class="card-teams">🇦🇹 オーストリア <span class="vs">vs</span> 🇯🇴 ヨルダン</div><div class="card-venue">リーバイス・スタジアム（サンタクララ）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/17 -->
+  <div class="day-header phase-group" data-date="2026-06-17">
+    <span class="day-date">6月17日</span><span class="day-weekday">水曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#21</span><span class="card-grp">K組</span></div><div class="card-teams">🇵🇹 ポルトガル <span class="vs">vs</span> 🇨🇩 コンゴ民主共和国</div><div class="card-venue">NRGスタジアム（ヒューストン）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#22</span><span class="card-grp">L組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">🏴󠁧󠁢󠁥󠁮󠁧󠁿 イングランド <span class="vs">vs</span> 🇭🇷 クロアチア</div><div class="card-venue">ダラス・スタジアム（アーリントン）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>6:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#23</span><span class="card-grp">L組</span></div><div class="card-teams">🇬🇭 ガーナ <span class="vs">vs</span> 🇵🇦 パナマ</div><div class="card-venue">BMOフィールド（トロント）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#24</span><span class="card-grp">K組</span></div><div class="card-teams">🇺🇿 ウズベキスタン <span class="vs">vs</span> 🇨🇴 コロンビア</div><div class="card-venue">エスタディオ・アステカ（メキシコシティ）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/18 -->
+  <div class="day-header phase-group" data-date="2026-06-18">
+    <span class="day-date">6月18日</span><span class="day-weekday">木曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午前<br>11:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#25</span><span class="card-grp">A組</span></div><div class="card-teams">🇨🇿 チェコ <span class="vs">vs</span> 🇿🇦 南アフリカ</div><div class="card-venue">メルセデス・ベンツ・スタジアム（アトランタ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#26</span><span class="card-grp">B組</span></div><div class="card-teams">🇨🇭 スイス <span class="vs">vs</span> 🇧🇦 ボスニア・ヘルツェゴビナ</div><div class="card-venue">SoFiスタジアム（イングルウッド）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#27</span><span class="card-grp">B組</span></div><div class="card-teams">🇨🇦 カナダ <span class="vs">vs</span> 🇶🇦 カタール</div><div class="card-venue">BCプレイス（バンクーバー）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#28</span><span class="card-grp">A組</span></div><div class="card-teams">🇲🇽 メキシコ <span class="vs">vs</span> 🇰🇷 韓国</div><div class="card-venue">エスタディオ・アクロン（サポパン）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/19 -->
+  <div class="day-header phase-group" data-date="2026-06-19">
+    <span class="day-date">6月19日</span><span class="day-weekday">金曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#29</span><span class="card-grp">D組</span></div><div class="card-teams">🇺🇸 USA <span class="vs">vs</span> 🇦🇺 オーストラリア</div><div class="card-venue">ルーメン・フィールド（シアトル）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#30</span><span class="card-grp">C組</span></div><div class="card-teams">🏴󠁧󠁢󠁳󠁣󠁴󠁿 スコットランド <span class="vs">vs</span> 🇲🇦 モロッコ</div><div class="card-venue">ジレット・スタジアム（フォックスボロ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>7:30</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#31</span><span class="card-grp">C組</span></div><div class="card-teams">🇧🇷 ブラジル <span class="vs">vs</span> 🇭🇹 ハイチ</div><div class="card-venue">リンカーン・フィナンシャル・フィールド（フィラデルフィア）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>10:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#32</span><span class="card-grp">D組</span></div><div class="card-teams">🇹🇷 トルコ <span class="vs">vs</span> 🇵🇾 パラグアイ</div><div class="card-venue">リーバイス・スタジアム（サンタクララ）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/20 -->
+  <div class="day-header phase-group" data-date="2026-06-20">
+    <span class="day-date">6月20日</span><span class="day-weekday">土曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#33</span><span class="card-grp">F組</span></div><div class="card-teams">🇳🇱 オランダ <span class="vs">vs</span> 🇸🇪 スウェーデン</div><div class="card-venue">NRGスタジアム（ヒューストン）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#34</span><span class="card-grp">E組</span></div><div class="card-teams">🇩🇪 ドイツ <span class="vs">vs</span> 🇨🇮 コートジボワール</div><div class="card-venue">BMOフィールド（トロント）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>7:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#35</span><span class="card-grp">E組</span></div><div class="card-teams">🇪🇨 エクアドル <span class="vs">vs</span> 🇨🇼 キュラソー</div><div class="card-venue">アローヘッド・スタジアム（カンザスシティ）</div></div>
+    </div>
+  </div>
+
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">深夜<br>11:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#36</span><span class="card-grp">F組</span></div><div class="card-teams">🇹🇳 チュニジア <span class="vs">vs</span> 🇯🇵 日本 <span style="font-size:.65rem;color:var(--gold)">※W杯史上1000試合目</span></div><div class="card-venue">エスタディオBBVA（モンテレー）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/21 -->
+  <div class="day-header phase-group" data-date="2026-06-21">
+    <span class="day-date">6月21日</span><span class="day-weekday">日曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午前<br>11:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#37</span><span class="card-grp">H組</span></div><div class="card-teams">🇪🇸 スペイン <span class="vs">vs</span> 🇸🇦 サウジアラビア</div><div class="card-venue">メルセデス・ベンツ・スタジアム（アトランタ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#38</span><span class="card-grp">G組</span></div><div class="card-teams">🇧🇪 ベルギー <span class="vs">vs</span> 🇮🇷 イラン</div><div class="card-venue">SoFiスタジアム（イングルウッド）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#39</span><span class="card-grp">H組</span></div><div class="card-teams">🇺🇾 ウルグアイ <span class="vs">vs</span> 🇨🇻 カーボベルデ</div><div class="card-venue">ハードロック・スタジアム（マイアミガーデンズ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#40</span><span class="card-grp">G組</span></div><div class="card-teams">🇳🇿 ニュージーランド <span class="vs">vs</span> 🇪🇬 エジプト</div><div class="card-venue">BCプレイス（バンクーバー）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/22 -->
+  <div class="day-header phase-group" data-date="2026-06-22">
+    <span class="day-date">6月22日</span><span class="day-weekday">月曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#41</span><span class="card-grp">J組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">🇦🇷 アルゼンチン <span class="vs">vs</span> 🇦🇹 オーストリア</div><div class="card-venue">ダラス・スタジアム（アーリントン）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>4:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#42</span><span class="card-grp">I組</span></div><div class="card-teams">🇫🇷 フランス <span class="vs">vs</span> 🇮🇶 イラク</div><div class="card-venue">リンカーン・フィナンシャル（フィラデルフィア）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>7:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#43</span><span class="card-grp">I組</span></div><div class="card-teams">🇳🇴 ノルウェー <span class="vs">vs</span> 🇸🇳 セネガル</div><div class="card-venue">メットライフ・スタジアム（イーストラザーフォード）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>10:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#44</span><span class="card-grp">J組</span></div><div class="card-teams">🇯🇴 ヨルダン <span class="vs">vs</span> 🇩🇿 アルジェリア</div><div class="card-venue">リーバイス・スタジアム（サンタクララ）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/23 -->
+  <div class="day-header phase-group" data-date="2026-06-23">
+    <span class="day-date">6月23日</span><span class="day-weekday">火曜日</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#45</span><span class="card-grp">K組</span></div><div class="card-teams">🇵🇹 ポルトガル <span class="vs">vs</span> 🇺🇿 ウズベキスタン</div><div class="card-venue">NRGスタジアム（ヒューストン）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#46</span><span class="card-grp">L組</span></div><div class="card-teams">🏴󠁧󠁢󠁥󠁮󠁧󠁿 イングランド <span class="vs">vs</span> 🇬🇭 ガーナ</div><div class="card-venue">ジレット・スタジアム（フォックスボロ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>6:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#47</span><span class="card-grp">L組</span></div><div class="card-teams">🇵🇦 パナマ <span class="vs">vs</span> 🇭🇷 クロアチア</div><div class="card-venue">BMOフィールド（トロント）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#48</span><span class="card-grp">K組</span></div><div class="card-teams">🇨🇴 コロンビア <span class="vs">vs</span> 🇨🇩 コンゴ民主共和国</div><div class="card-venue">エスタディオ・アクロン（サポパン）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/24 FINAL MATCHDAY -->
+  <div class="day-header phase-group" data-date="2026-06-24">
+    <span class="day-date">6月24日</span><span class="day-weekday">水曜日</span><span class="day-note">★ グループ最終節（同時キックオフ）</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#49</span><span class="card-grp">B組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇭 スイス <span class="vs">vs</span> 🇨🇦 カナダ</div><div class="card-venue">BCプレイス（バンクーバー）</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#50</span><span class="card-grp">B組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇧🇦 ボスニア <span class="vs">vs</span> 🇶🇦 カタール</div><div class="card-venue">ルーメン・フィールド（シアトル）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#51</span><span class="card-grp">C組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🏴󠁧󠁢󠁳󠁣󠁴󠁿 スコットランド <span class="vs">vs</span> 🇧🇷 ブラジル</div><div class="card-venue">ハードロック（マイアミ）</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#52</span><span class="card-grp">C組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇲🇦 モロッコ <span class="vs">vs</span> 🇭🇹 ハイチ</div><div class="card-venue">メルセデス・ベンツ（アトランタ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#53</span><span class="card-grp">A組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇿 チェコ <span class="vs">vs</span> 🇲🇽 メキシコ</div><div class="card-venue">エスタディオ・アステカ（メキシコシティ）</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#54</span><span class="card-grp">A組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇿🇦 南アフリカ <span class="vs">vs</span> 🇰🇷 韓国</div><div class="card-venue">エスタディオBBVA（モンテレー）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/25 FINAL MATCHDAY -->
+  <div class="day-header phase-group" data-date="2026-06-25">
+    <span class="day-date">6月25日</span><span class="day-weekday">木曜日</span><span class="day-note">★ グループ最終節（同時キックオフ）</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#55</span><span class="card-grp">E組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇼 キュラソー <span class="vs">vs</span> 🇨🇮 コートジボワール</div><div class="card-venue">リンカーン（フィラデルフィア）</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#56</span><span class="card-grp">E組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇪🇨 エクアドル <span class="vs">vs</span> 🇩🇪 ドイツ</div><div class="card-venue">メットライフ（イーストラザーフォード）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>6:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#57</span><span class="card-grp">F組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇯🇵 日本 <span class="vs">vs</span> 🇸🇪 スウェーデン</div><div class="card-venue">ダラス・スタジアム（アーリントン）</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#58</span><span class="card-grp">F組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇹🇳 チュニジア <span class="vs">vs</span> 🇳🇱 オランダ</div><div class="card-venue">アローヘッド（カンザスシティ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#59</span><span class="card-grp">D組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇹🇷 トルコ <span class="vs">vs</span> 🇺🇸 USA</div><div class="card-venue">SoFiスタジアム（イングルウッド）</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#60</span><span class="card-grp">D組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇵🇾 パラグアイ <span class="vs">vs</span> 🇦🇺 オーストラリア</div><div class="card-venue">リーバイス（サンタクララ）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/26 FINAL MATCHDAY -->
+  <div class="day-header phase-group" data-date="2026-06-26">
+    <span class="day-date">6月26日</span><span class="day-weekday">金曜日</span><span class="day-note">★ グループ最終節（同時キックオフ）</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#61</span><span class="card-grp">I組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇳🇴 ノルウェー <span class="vs">vs</span> 🇫🇷 フランス</div><div class="card-venue">ジレット（フォックスボロ）</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#62</span><span class="card-grp">I組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇸🇳 セネガル <span class="vs">vs</span> 🇮🇶 イラク</div><div class="card-venue">BMOフィールド（トロント）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>7:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#63</span><span class="card-grp">H組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇻 カーボベルデ <span class="vs">vs</span> 🇸🇦 サウジアラビア</div><div class="card-venue">NRGスタジアム（ヒューストン）</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#64</span><span class="card-grp">H組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇺🇾 ウルグアイ <span class="vs">vs</span> 🇪🇸 スペイン</div><div class="card-venue">エスタディオ・アクロン（サポパン）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>10:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#65</span><span class="card-grp">G組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇪🇬 エジプト <span class="vs">vs</span> 🇮🇷 イラン</div><div class="card-venue">ルーメン・フィールド（シアトル）</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#66</span><span class="card-grp">G組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇳🇿 ニュージーランド <span class="vs">vs</span> 🇧🇪 ベルギー</div><div class="card-venue">BCプレイス（バンクーバー）</div></div>
+    </div>
+  </div>
+
+  <!-- 6/27 FINAL MATCHDAY -->
+  <div class="day-header phase-group" data-date="2026-06-27">
+    <span class="day-date">6月27日</span><span class="day-weekday">土曜日</span><span class="day-note">★ グループ最終節（同時キックオフ）</span>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>4:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#67</span><span class="card-grp">L組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇵🇦 パナマ <span class="vs">vs</span> 🏴󠁧󠁢󠁥󠁮󠁧󠁿 イングランド</div><div class="card-venue">メットライフ（イーストラザーフォード）</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#68</span><span class="card-grp">L組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇭🇷 クロアチア <span class="vs">vs</span> 🇬🇭 ガーナ</div><div class="card-venue">リンカーン（フィラデルフィア）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>6:30</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#69</span><span class="card-grp">K組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇴 コロンビア <span class="vs">vs</span> 🇵🇹 ポルトガル</div><div class="card-venue">ハードロック（マイアミ）</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#70</span><span class="card-grp">K組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇩 コンゴDR <span class="vs">vs</span> 🇺🇿 ウズベキスタン</div><div class="card-venue">メルセデス・ベンツ（アトランタ）</div></div>
+    </div>
+  </div>
+  <div class="timeslot">
+    <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
+    <div class="timeslot-cards">
+      <div class="match-card"><div class="card-top"><span class="card-num">#71</span><span class="card-grp">J組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇩🇿 アルジェリア <span class="vs">vs</span> 🇦🇹 オーストリア</div><div class="card-venue">アローヘッド（カンザスシティ）</div></div>
+      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#72</span><span class="card-grp">J組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇯🇴 ヨルダン <span class="vs">vs</span> 🇦🇷 アルゼンチン</div><div class="card-venue">ダラス・スタジアム（アーリントン）</div></div>
+    </div>
+  </div>
+
+</div><!-- /group stage -->
+
+<!-- ═══════════════════════════════════════════════
+     ROUND OF 32
+════════════════════════════════════════════════ -->
+<div class="phase-block" data-stage="r32">
+  <div class="phase-title-row">
+    <span class="phase-badge badge-r32">R32</span>
+    <span class="phase-name">ラウンド32（決勝T 1回戦）</span>
+    <span class="phase-span">6月28日（日）〜 7月3日（金）</span>
+  </div>
+
+  <div class="day-header" data-date="2026-06-28" phase-r32"><span class="day-date">6月28日</span><span class="day-weekday">日曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#73</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">A組2位 <span class="vs">vs</span> B組2位</div><div class="card-venue">SoFiスタジアム（イングルウッド）</div></div></div></div>
+
+  <div class="day-header" data-date="2026-06-29" phase-r32"><span class="day-date">6月29日</span><span class="day-weekday">月曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#76</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">C組1位 <span class="vs">vs</span> F組2位</div><div class="card-venue">NRGスタジアム（ヒューストン）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>3:30</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#74</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">E組1位 <span class="vs">vs</span> 3位最上位(ABCDF)</div><div class="card-venue">ジレット・スタジアム（フォックスボロ）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#75</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">F組1位 <span class="vs">vs</span> C組2位</div><div class="card-venue">エスタディオBBVA（モンテレー）</div></div></div></div>
+
+  <div class="day-header" data-date="2026-06-30" phase-r32"><span class="day-date">6月30日</span><span class="day-weekday">火曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#78</span><span class="card-grp grp-r32">R32</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">E組2位 <span class="vs">vs</span> I組2位</div><div class="card-venue">ダラス・スタジアム（アーリントン）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>4:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#77</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">I組1位 <span class="vs">vs</span> 3位最上位(CDFGH)</div><div class="card-venue">メットライフ（イーストラザーフォード）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#79</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">A組1位 <span class="vs">vs</span> 3位最上位(CEFHI)</div><div class="card-venue">エスタディオ・アステカ（メキシコシティ）</div></div></div></div>
+
+  <div class="day-header" data-date="2026-07-01" phase-r32"><span class="day-date">7月1日</span><span class="day-weekday">水曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午前<br>11:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#80</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">L組1位 <span class="vs">vs</span> 3位最上位(EHIJK)</div><div class="card-venue">メルセデス・ベンツ（アトランタ）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#82</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">G組1位 <span class="vs">vs</span> 3位最上位(AEHIJ)</div><div class="card-venue">ルーメン・フィールド（シアトル）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>7:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#81</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">D組1位 <span class="vs">vs</span> 3位最上位(BEFIJ)</div><div class="card-venue">リーバイス（サンタクララ）</div></div></div></div>
+
+  <div class="day-header" data-date="2026-07-02" phase-r32"><span class="day-date">7月2日</span><span class="day-weekday">木曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#84</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">H組1位 <span class="vs">vs</span> J組2位</div><div class="card-venue">SoFiスタジアム（イングルウッド）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>6:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#83</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">K組2位 <span class="vs">vs</span> L組2位</div><div class="card-venue">BMOフィールド（トロント）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>10:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#85</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">B組1位 <span class="vs">vs</span> 3位最上位(EFGIJ)</div><div class="card-venue">BCプレイス（バンクーバー）</div></div></div></div>
+
+  <div class="day-header" data-date="2026-07-03" phase-r32"><span class="day-date">7月3日</span><span class="day-weekday">金曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>1:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#88</span><span class="card-grp grp-r32">R32</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">D組2位 <span class="vs">vs</span> G組2位</div><div class="card-venue">ダラス・スタジアム（アーリントン）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#86</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">J組1位 <span class="vs">vs</span> H組2位</div><div class="card-venue">ハードロック（マイアミ）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>8:30</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#87</span><span class="card-grp grp-r32">R32</span></div><div class="card-teams">K組1位 <span class="vs">vs</span> 3位最上位(DEJL)</div><div class="card-venue">アローヘッド（カンザスシティ）</div></div></div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ROUND OF 16
+════════════════════════════════════════════════ -->
+<div class="phase-block" data-stage="r16">
+  <div class="phase-title-row">
+    <span class="phase-badge badge-r16">R16</span>
+    <span class="phase-name">ラウンド16</span>
+    <span class="phase-span">7月4日（土）〜 7月7日（火）</span>
+  </div>
+
+  <div class="day-header" data-date="2026-07-04" phase-r16"><span class="day-date">7月4日</span><span class="day-weekday">土曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#90</span><span class="card-grp grp-r16">R16</span></div><div class="card-teams">M73勝者 <span class="vs">vs</span> M75勝者</div><div class="card-venue">NRGスタジアム（ヒューストン）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>4:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#89</span><span class="card-grp grp-r16">R16</span></div><div class="card-teams">M74勝者 <span class="vs">vs</span> M77勝者</div><div class="card-venue">リンカーン（フィラデルフィア）</div></div></div></div>
+
+  <div class="day-header" data-date="2026-07-05" phase-r16"><span class="day-date">7月5日</span><span class="day-weekday">日曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#91</span><span class="card-grp grp-r16">R16</span></div><div class="card-teams">M76勝者 <span class="vs">vs</span> M78勝者</div><div class="card-venue">メットライフ（イーストラザーフォード）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>7:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#92</span><span class="card-grp grp-r16">R16</span></div><div class="card-teams">M79勝者 <span class="vs">vs</span> M80勝者</div><div class="card-venue">エスタディオ・アステカ（メキシコシティ）</div></div></div></div>
+
+  <div class="day-header" data-date="2026-07-06" phase-r16"><span class="day-date">7月6日</span><span class="day-weekday">月曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#93</span><span class="card-grp grp-r16">R16</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">M83勝者 <span class="vs">vs</span> M84勝者</div><div class="card-venue">ダラス・スタジアム（アーリントン）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>7:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#94</span><span class="card-grp grp-r16">R16</span></div><div class="card-teams">M81勝者 <span class="vs">vs</span> M82勝者</div><div class="card-venue">ルーメン（シアトル）</div></div></div></div>
+
+  <div class="day-header" data-date="2026-07-07" phase-r16"><span class="day-date">7月7日</span><span class="day-weekday">火曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午前<br>11:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#95</span><span class="card-grp grp-r16">R16</span></div><div class="card-teams">M86勝者 <span class="vs">vs</span> M88勝者</div><div class="card-venue">メルセデス・ベンツ（アトランタ）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#96</span><span class="card-grp grp-r16">R16</span></div><div class="card-teams">M85勝者 <span class="vs">vs</span> M87勝者</div><div class="card-venue">BCプレイス（バンクーバー）</div></div></div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     QUARTERFINALS
+════════════════════════════════════════════════ -->
+<div class="phase-block" data-stage="qf">
+  <div class="phase-title-row">
+    <span class="phase-badge badge-qf">準々決勝</span>
+    <span class="phase-name">クォーターファイナル</span>
+    <span class="phase-span">7月9日（木）〜 7月11日（土）</span>
+  </div>
+
+  <div class="day-header" data-date="2026-07-09" phase-qf"><span class="day-date">7月9日</span><span class="day-weekday">木曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#97</span><span class="card-grp grp-qf">QF</span></div><div class="card-teams">M89勝者 <span class="vs">vs</span> M90勝者</div><div class="card-venue">ジレット・スタジアム（フォックスボロ）</div></div></div></div>
+
+  <div class="day-header" data-date="2026-07-10" phase-qf"><span class="day-date">7月10日</span><span class="day-weekday">金曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#98</span><span class="card-grp grp-qf">QF</span></div><div class="card-teams">M93勝者 <span class="vs">vs</span> M94勝者</div><div class="card-venue">SoFiスタジアム（イングルウッド）</div></div></div></div>
+
+  <div class="day-header" data-date="2026-07-11" phase-qf"><span class="day-date">7月11日</span><span class="day-weekday">土曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>4:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#99</span><span class="card-grp grp-qf">QF</span></div><div class="card-teams">M91勝者 <span class="vs">vs</span> M92勝者</div><div class="card-venue">ハードロック（マイアミ）</div></div></div></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#100</span><span class="card-grp grp-qf">QF</span></div><div class="card-teams">M95勝者 <span class="vs">vs</span> M96勝者</div><div class="card-venue">アローヘッド（カンザスシティ）</div></div></div></div>
+</div>
+
+<div class="phase-block" data-stage="sf">
+  <div class="phase-title-row">
+    <span class="phase-badge badge-sf">準決勝</span>
+    <span class="phase-name">セミファイナル</span>
+    <span class="phase-span">7月14日（火）〜 7月15日（水）</span>
+  </div>
+  <div class="day-header" data-date="2026-07-14" phase-sf"><span class="day-date">7月14日</span><span class="day-weekday">火曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#101</span><span class="card-grp grp-sf">SF</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams" style="font-size:1.05rem">M97勝者 <span class="vs">vs</span> M98勝者</div><div class="card-venue">ダラス・スタジアム（アーリントン）</div></div></div></div>
+  <div class="day-header" data-date="2026-07-15" phase-sf"><span class="day-date">7月15日</span><span class="day-weekday">水曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#102</span><span class="card-grp grp-sf">SF</span></div><div class="card-teams" style="font-size:1.05rem">M99勝者 <span class="vs">vs</span> M100勝者</div><div class="card-venue">メルセデス・ベンツ（アトランタ）</div></div></div></div>
+</div>
+
+<div class="phase-block" data-stage="final">
+  <div class="phase-title-row">
+    <span class="phase-badge badge-3rd">3位決定戦</span>
+    <span class="phase-name">3位決定戦・決勝</span>
+    <span class="phase-span">7月18日（土）〜 7月19日（日）</span>
+  </div>
+  <div class="day-header" data-date="2026-07-18" phase-final"><span class="day-date">7月18日</span><span class="day-weekday">土曜日</span></div>
+  <div class="timeslot"><div class="timeslot-label"><div class="tl-time">午後<br>4:00</div><div class="tl-tz">CDT</div></div><div class="timeslot-cards"><div class="match-card"><div class="card-top"><span class="card-num">#103</span><span class="card-grp">3位</span></div><div class="card-teams">SF敗者1 <span class="vs">vs</span> SF敗者2</div><div class="card-venue">ハードロック・スタジアム（マイアミ）</div></div></div></div>
+
+  <div class="day-header phase-final" data-date="2026-07-19" style="border-left-color:var(--gold)">
+    <span class="day-date" style="color:var(--gold)">7月19日</span><span class="day-weekday">日曜日</span><span class="day-note">🏆 決勝</span>
+  </div>
+  <div class="final-mega">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <span class="phase-badge badge-final">⭐ 決勝</span><span class="card-num">#104</span>
+    </div>
+    <div class="fm-time">午後 2:00 CDT</div>
+    <div class="fm-teams">🏆 優勝チーム決定戦</div>
+    <div class="fm-venue">📍 メットライフ・スタジアム（イーストラザーフォード、ニュージャージー）</div>
+    <div class="fm-note">史上初・48チームによるワールドカップ決勝 ｜ 収容82,500人</div>
+  </div>
+</div>
+
+</div><!-- /main -->
+<script>
+(function() {
+  // ── filter state ──
+  var activeStages = {group:true, r32:true, r16:true, qf:true, sf:true, final:true};
+  var dallasOnly = false;
+
+  function applyFilters() {
+    var blocks = document.querySelectorAll('.phase-block');
+    for (var i = 0; i < blocks.length; i++) {
+      var s = blocks[i].getAttribute('data-stage');
+      blocks[i].style.display = activeStages[s] ? '' : 'none';
+    }
+    var timeslots = document.querySelectorAll('.timeslot');
+    var dayHeaders = document.querySelectorAll('.day-header');
+    var cards = document.querySelectorAll('.match-card');
+    if (dallasOnly) {
+      for (var i = 0; i < cards.length; i++)
+        cards[i].style.display = cards[i].classList.contains('dallas-venue') ? '' : 'none';
+      for (var i = 0; i < timeslots.length; i++)
+        timeslots[i].style.display = timeslots[i].querySelector('.dallas-venue') ? '' : 'none';
+      for (var i = 0; i < dayHeaders.length; i++) {
+        var dh = dayHeaders[i], anyVis = false, el = dh.nextElementSibling;
+        while (el && el.classList.contains('timeslot')) {
+          if (el.style.display !== 'none') anyVis = true;
+          el = el.nextElementSibling;
+        }
+        dh.style.display = anyVis ? '' : 'none';
+      }
+    } else {
+      for (var i = 0; i < cards.length; i++) cards[i].style.display = '';
+      for (var i = 0; i < timeslots.length; i++) timeslots[i].style.display = '';
+      for (var i = 0; i < dayHeaders.length; i++) dayHeaders[i].style.display = '';
+    }
+  }
+
+  window.toggleStage = function(stage, btn) {
+    activeStages[stage] = !activeStages[stage];
+    btn.classList.toggle('active', activeStages[stage]);
+    applyFilters();
+  };
+  window.toggleDallas = function(btn) {
+    dallasOnly = !dallasOnly;
+    btn.classList.toggle('active', dallasOnly);
+    applyFilters();
+  };
+
+  // ── today detection ──
+  function getTodayISO() {
+    var d = new Date();
+    // Dallas is CDT (UTC-5) during summer
+    var utc = d.getTime() + d.getTimezoneOffset() * 60000;
+    var dallas = new Date(utc - 5 * 3600000);
+    var y = dallas.getFullYear();
+    var m = String(dallas.getMonth() + 1).padStart(2, '0');
+    var day = String(dallas.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + day;
+  }
+
+  function formatJP(iso) {
+    var parts = iso.split('-');
+    return parseInt(parts[1]) + '月' + parseInt(parts[2]) + '日';
+  }
+
+  var todayISO = getTodayISO();
+  var todayHeader = null;
+
+  function initToday() {
+    var label = document.getElementById('today-label');
+    if (label) label.textContent = formatJP(todayISO);
+
+    var headers = document.querySelectorAll('.day-header[data-date]');
+    var found = false;
+    for (var i = 0; i < headers.length; i++) {
+      var dh = headers[i];
+      if (dh.getAttribute('data-date') === todayISO) {
+        found = true;
+        todayHeader = dh;
+        // highlight header
+        dh.classList.add('today');
+        // add banner inside header
+        var banner = document.createElement('span');
+        banner.className = 'today-banner';
+        banner.textContent = '⚽ 今日の試合';
+        dh.appendChild(banner);
+        // highlight all timeslot cards under this header
+        var el = dh.nextElementSibling;
+        while (el && el.classList.contains('timeslot')) {
+          var cards = el.querySelectorAll('.match-card');
+          for (var j = 0; j < cards.length; j++) {
+            cards[j].classList.add('today-card');
+            // add TODAY tag next to match number
+            var numEl = cards[j].querySelector('.card-num');
+            if (numEl) {
+              var tag = document.createElement('span');
+              tag.className = 'today-match-tag';
+              tag.textContent = 'TODAY';
+              numEl.parentNode.insertBefore(tag, numEl.nextSibling);
+            }
+          }
+          el = el.nextElementSibling;
+        }
+      }
+    }
+
+    var jumpBtn = document.getElementById('today-jump');
+    var noGames = document.getElementById('no-games-today');
+    var today = new Date(todayISO);
+    var start = new Date('2026-06-11');
+    var end   = new Date('2026-07-19');
+
+    if (found) {
+      // 試合がある日
+      if (jumpBtn) { jumpBtn.textContent = '⚽ 今日の試合へ'; jumpBtn.style.display = 'block'; }
+      if (noGames) noGames.style.display = 'none';
+    } else if (today < start) {
+      // 大会前：カウントダウン
+      var diff = Math.ceil((start - today) / 86400000);
+      if (noGames) {
+        noGames.style.display = 'block';
+        noGames.innerHTML = '🏆 ワールドカップ開幕まで <strong style="color:var(--gold);font-size:1.2em">' + diff + '</strong> 日！';
+      }
+      // ボタンは「開幕戦へ」として表示
+      if (jumpBtn) {
+        jumpBtn.textContent = '⚽ 開幕戦へジャンプ';
+        jumpBtn.style.display = 'block';
+        // 開幕日のヘッダーを todayHeader に設定
+        var firstHeader = document.querySelector('.day-header[data-date="2026-06-11"]');
+        if (firstHeader) todayHeader = firstHeader;
+      }
+    } else if (today > end) {
+      // 大会終了後
+      if (noGames) { noGames.style.display = 'block'; noGames.innerHTML = '🏆 ワールドカップ 2026 は終了しました'; }
+      if (jumpBtn) jumpBtn.style.display = 'none';
+    } else {
+      // 大会期間中だが試合のない日（休息日）
+      if (noGames) { noGames.style.display = 'block'; }
+      if (jumpBtn) jumpBtn.style.display = 'none';
+    }
+  }
+
+  window.scrollToToday = function() {
+    if (todayHeader) {
+      var offset = 160; // header + controls height
+      var top = todayHeader.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    initToday();
+    loadResults();
+  });
+
+  // ── RESULTS from football-data.org ──────────────────────────────
+  var API_TOKEN = 'fe4edac284a34af68c7effc03aafe07b';
+
+  // match number → card-num text mapping (e.g. "#1" → card element)
+  function getCardByNum(num) {
+    var spans = document.querySelectorAll('.card-num');
+    for (var i = 0; i < spans.length; i++) {
+      if (spans[i].textContent === '#' + num) return spans[i].closest('.match-card');
+    }
+    return null;
+  }
+
+  function statusLabel(status) {
+    if (status === 'FINISHED')    return { text: '終了', cls: 'res-finished' };
+    if (status === 'IN_PROGRESS') return { text: 'LIVE', cls: 'res-live' };
+    if (status === 'PAUSED')      return { text: 'HT',   cls: 'res-live' };
+    if (status === 'TIMED' || status === 'SCHEDULED') return null;
+    return null;
+  }
+
+  function injectResult(card, homeScore, awayScore, status) {
+    // remove old result if any
+    var old = card.querySelector('.match-result');
+    if (old) old.remove();
+
+    var info = statusLabel(status);
+    if (info === null && (homeScore === null || homeScore === undefined)) return;
+
+    var div = document.createElement('div');
+    div.className = 'match-result ' + (info ? info.cls : 'res-finished');
+
+    if (info && info.cls === 'res-live') {
+      div.innerHTML = '<span class="res-badge">' + info.text + '</span> '
+        + '<span class="res-score">' + homeScore + ' - ' + awayScore + '</span>';
+    } else if (status === 'FINISHED') {
+      div.innerHTML = '<span class="res-score">' + homeScore + ' - ' + awayScore + '</span>'
+        + ' <span class="res-badge res-done">終了</span>';
+    }
+    card.appendChild(div);
+  }
+
+  // Map football-data match IDs to our card numbers
+  // We'll match by date + home team name dynamically
+  var teamNameMap = {
+    'Mexico':'メキシコ','South Africa':'南アフリカ','South Korea':'韓国','Czechia':'チェコ',
+    'Canada':'カナダ','Bosnia and Herzegovina':'ボスニア・ヘルツェゴビナ','USA':'USA','Paraguay':'パラグアイ',
+    'Qatar':'カタール','Switzerland':'スイス','Brazil':'ブラジル','Morocco':'モロッコ',
+    'Haiti':'ハイチ','Scotland':'スコットランド','Australia':'オーストラリア','Türkiye':'トルコ',
+    'Germany':'ドイツ','Curaçao':'キュラソー','Netherlands':'オランダ','Japan':'日本',
+    'Ivory Coast':'コートジボワール','Ecuador':'エクアドル','Sweden':'スウェーデン','Tunisia':'チュニジア',
+    'Spain':'スペイン','Cape Verde':'カーボベルデ','Belgium':'ベルギー','Egypt':'エジプト',
+    'Saudi Arabia':'サウジアラビア','Uruguay':'ウルグアイ','Iran':'イラン','New Zealand':'ニュージーランド',
+    'France':'フランス','Senegal':'セネガル','Iraq':'イラク','Norway':'ノルウェー',
+    'Argentina':'アルゼンチン','Algeria':'アルジェリア','Austria':'オーストリア','Jordan':'ヨルダン',
+    'Portugal':'ポルトガル','DR Congo':'コンゴ民主共和国','England':'イングランド','Croatia':'クロアチア',
+    'Ghana':'ガーナ','Panama':'パナマ','Uzbekistan':'ウズベキスタン','Colombia':'コロンビア',
+    'Denmark':'デンマーク','Italy':'イタリア','Wales':'ウェールズ','Serbia':'セルビア',
+  };
+
+  function findCardByTeams(homeJP, awayJP) {
+    var cards = document.querySelectorAll('.match-card');
+    for (var i = 0; i < cards.length; i++) {
+      var txt = cards[i].querySelector('.card-teams');
+      if (txt && txt.textContent.indexOf(homeJP) !== -1 && txt.textContent.indexOf(awayJP) !== -1) {
+        return cards[i];
+      }
+    }
+    return null;
+  }
+
+  function loadResults() {
+    var statusEl = document.getElementById('api-status');
+    if (statusEl) statusEl.textContent = '結果を読み込み中…';
+
+    var apiUrl = 'https://api.football-data.org/v4/competitions/WC/matches?season=2026';
+
+    // Try proxies in order
+    var proxies = [
+      'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl),
+      'https://corsproxy.io/?' + encodeURIComponent(apiUrl),
+      'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(apiUrl),
+    ];
+
+    function tryProxy(index) {
+      if (index >= proxies.length) {
+        if (statusEl) statusEl.textContent = '⚠️ 結果取得失敗（プロキシ全滅）';
+        return;
+      }
+      fetch(proxies[index], {
+        headers: { 'X-Auth-Token': API_TOKEN }
+      })
+    .then(function(res) {
+        var remaining = res.headers.get('X-Requests-Available-Minute');
+        if (statusEl && remaining) statusEl.textContent = '✅ 結果取得済（残りAPI: ' + remaining + '/分）';
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function(data) {
+        var matches = data.matches || [];
+        var updated = 0;
+        for (var i = 0; i < matches.length; i++) {
+          var m = matches[i];
+          var status = m.status;
+          if (status !== 'FINISHED' && status !== 'IN_PROGRESS' && status !== 'PAUSED') continue;
+          var homeEN = m.homeTeam && m.homeTeam.name;
+          var awayEN = m.awayTeam && m.awayTeam.name;
+          if (!homeEN || !awayEN) continue;
+          var homeJP = teamNameMap[homeEN] || homeEN;
+          var awayJP = teamNameMap[awayEN] || awayEN;
+          var card = findCardByTeams(homeJP, awayJP);
+          if (!card) continue;
+          var score = m.score;
+          var home = score && score.fullTime ? score.fullTime.home : null;
+          var away = score && score.fullTime ? score.fullTime.away : null;
+          if (status === 'IN_PROGRESS' || status === 'PAUSED') {
+            home = score && score.halfTime ? score.halfTime.home : null;
+            away = score && score.halfTime ? score.halfTime.away : null;
+          }
+          injectResult(card, home, away, status);
+          updated++;
+        }
+        if (statusEl) {
+          statusEl.textContent = updated > 0 ? '✅ ' + updated + '試合の結果を更新' : '✅ まだ結果なし（大会前）';
+        }
+      })
+      .catch(function(err) {
+        console.warn('proxy[' + index + '] failed:', err);
+        tryProxy(index + 1);
+      });
+    }
+    tryProxy(0);
+  }
+
+  // refresh every 60 seconds during live matches
+  setInterval(function() {
+    var now = new Date();
+    var h = now.getUTCHours() - 5; // CDT
+    if (h < 0) h += 24;
+    // refresh between 11am and midnight CDT
+    if (h >= 11 && h <= 23) loadResults();
+  }, 60000);
+
+})();
+</script>
+</body>
+</html>
