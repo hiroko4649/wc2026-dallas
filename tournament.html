@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WC2026 トーナメント進捗 | ダラス観戦記</title>
+<style>
+  :root {
+    --bg: #07101f;
+    --surface: #0e1c30;
+    --surface2: #162540;
+    --border: #1e3050;
+    --text: #e8edf5;
+    --muted: #6e85a0;
+    --gold: #f5c518;
+    --green: #22c55e;
+    --blue: #3b82f6;
+    --purple: #a855f7;
+    --teal: #14b8a6;
+    --orange: #f97316;
+    --red: #ef4444;
+    --dallas: #00c4e8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI','Helvetica Neue',Arial,sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(160deg,#060f22 0%,#0e2040 60%,#091830 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 18px 24px 14px;
+    text-align: center;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.6);
+  }
+  header .flag-row { font-size: 1.6rem; margin-bottom: 4px; }
+  header h1 { font-size: clamp(1rem,2.5vw,1.6rem); font-weight: 900; color: var(--gold); letter-spacing: 0.02em; margin-bottom: 2px; }
+  header p  { font-size: 0.78rem; color: var(--muted); }
+  .back-link {
+    position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); text-decoration: none; font-size: 0.78rem;
+    border: 1px solid var(--border); padding: 4px 11px; border-radius: 20px;
+    transition: all .15s;
+  }
+  .back-link:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ── TAB BAR ── */
+  .tab-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; overflow-x: auto;
+    position: sticky; top: 80px; z-index: 99;
+  }
+  .tab-btn {
+    background: none; border: none; border-bottom: 3px solid transparent;
+    color: var(--muted); cursor: pointer; padding: 13px 22px;
+    font-size: 0.85rem; font-weight: 600; white-space: nowrap;
+    transition: all .15s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ── MAIN ── */
+  .main { max-width: 1180px; margin: 0 auto; padding: 20px 16px 60px; }
+
+  /* ── STATUS BAR ── */
+  .api-status-bar {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 9px 16px; margin-bottom: 20px;
+    font-size: 0.78rem; color: var(--muted);
+  }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--muted); flex-shrink: 0;
+  }
+  .status-dot.ok   { background: var(--green); }
+  .status-dot.err  { background: var(--red); }
+  .status-dot.wait { background: var(--gold); animation: blink 1s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .refresh-btn {
+    margin-left: auto; background: none; border: 1px solid var(--border);
+    color: var(--muted); cursor: pointer; padding: 3px 12px; border-radius: 20px;
+    font-size: 0.75rem; transition: all .15s;
+  }
+  .refresh-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── VIEWS ── */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── GROUP GRID ── */
+  .groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 14px;
+  }
+  .group-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
+  }
+  .group-header {
+    background: var(--surface2); border-bottom: 1px solid var(--border);
+    padding: 9px 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .group-label {
+    font-size: 0.95rem; font-weight: 900; color: var(--gold); letter-spacing: 0.05em;
+  }
+  .standings-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  .standings-table th {
+    padding: 5px 6px; text-align: center;
+    font-size: 0.68rem; font-weight: 700; color: var(--muted);
+    letter-spacing: 0.05em; background: rgba(255,255,255,0.02);
+  }
+  .standings-table th:first-child { text-align: left; padding-left: 12px; }
+  .standings-table td {
+    padding: 6px 6px; text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .standings-table td:first-child { text-align: left; padding-left: 8px; }
+  .standings-table tr:hover td { background: rgba(255,255,255,0.03); }
+  .team-cell { display: flex; align-items: center; gap: 6px; }
+  .team-crest { width: 19px; height: 19px; object-fit: contain; }
+  .team-short { font-weight: 600; }
+  .pos-num { font-size: 0.68rem; min-width: 13px; color: var(--muted); }
+  .qualified td:first-child { border-left: 3px solid var(--gold); }
+  .pts-val { font-weight: 800; color: var(--text); }
+  .form-pills { display: flex; gap: 2px; justify-content: center; }
+  .fp {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--muted);
+  }
+  .fp-w { background: var(--green); }
+  .fp-d { background: var(--gold); }
+  .fp-l { background: var(--red); }
+
+  /* ── BRACKET ── */
+  .bracket-outer { overflow-x: auto; padding-bottom: 12px; }
+  .bracket-rounds {
+    display: flex; min-width: 860px; gap: 0;
+    align-items: stretch;
+  }
+  .round-col { flex: 1; display: flex; flex-direction: column; min-width: 130px; }
+  .round-head {
+    text-align: center; padding: 9px 4px;
+    font-size: 0.68rem; font-weight: 800; color: var(--gold);
+    letter-spacing: 0.07em; text-transform: uppercase;
+    border-bottom: 1px solid var(--border); margin-bottom: 10px;
+    white-space: nowrap; overflow: hidden;
+  }
+  .round-matches {
+    display: flex; flex-direction: column;
+    justify-content: space-around; flex: 1; gap: 6px;
+    padding: 0 3px;
+  }
+  .bm-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 7px; overflow: hidden; font-size: 0.75rem;
+  }
+  .bm-card.is-final { border-color: var(--gold); box-shadow: 0 0 16px rgba(245,197,24,0.2); }
+  .bm-team {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 5px 7px;
+  }
+  .bm-team + .bm-team { border-top: 1px solid rgba(255,255,255,0.05); }
+  .bm-name { display: flex; align-items: center; gap: 4px; overflow: hidden; }
+  .bm-name img { width: 15px; height: 15px; object-fit: contain; flex-shrink: 0; }
+  .bm-name span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 72px; }
+  .bm-score { font-weight: 800; font-size: 0.85rem; min-width: 14px; text-align: right; }
+  .bm-score.win { color: var(--gold); }
+  .bm-score.loss { color: var(--muted); }
+  .bm-date {
+    font-size: 0.62rem; color: var(--muted); text-align: center;
+    padding: 2px 4px; background: rgba(255,255,255,0.02);
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .tbd-name { color: var(--muted); font-style: italic; }
+  .no-knockout {
+    color: var(--muted); font-size: 0.85rem; padding: 30px 0; text-align: center;
+  }
+
+  /* ── MATCHES ── */
+  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .mf-btn {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--muted); cursor: pointer; padding: 4px 13px;
+    border-radius: 20px; font-size: 0.78rem; transition: all .14s;
+  }
+  .mf-btn:hover { opacity: .85; }
+  .mf-btn.active { color: #fff; background: #1e3a8a; border-color: var(--blue); }
+  .match-list { display: flex; flex-direction: column; gap: 8px; }
+  .ml-row {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 9px; padding: 11px 16px;
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    align-items: center; gap: 10px;
+  }
+  .ml-row:hover { background: var(--surface2); }
+  .ml-home { text-align: right; }
+  .ml-away { text-align: left;  }
+  .ml-center { text-align: center; }
+  .ml-teams {
+    display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 0.88rem;
+  }
+  .ml-home .ml-teams { justify-content: flex-end; }
+  .ml-teams img { width: 20px; height: 20px; object-fit: contain; }
+  .ml-score-big { font-size: 1.25rem; font-weight: 900; color: var(--gold); letter-spacing: 0.08em; }
+  .ml-vs { font-size: 0.9rem; font-weight: 700; color: var(--muted); }
+  .ml-meta { font-size: 0.7rem; color: var(--muted); margin-top: 3px; line-height: 1.6; }
+  .badge {
+    display: inline-block; font-size: 0.62rem; font-weight: 800;
+    padding: 1px 7px; border-radius: 9px; letter-spacing: 0.05em;
+  }
+  .badge-live { background: var(--red); color: #fff; animation: blink 1s infinite; }
+  .badge-fin  { background: rgba(255,255,255,0.08); color: var(--muted); }
+  .badge-sch  { background: rgba(59,130,246,0.15); color: var(--blue); }
+
+  /* ── SKELETON ── */
+  .skel {
+    background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+    background-size: 200% 100%; animation: shimmer 1.4s infinite;
+    border-radius: 5px; height: 14px;
+  }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  /* ── EMPTY / ERROR ── */
+  .empty { color: var(--muted); font-size: 0.85rem; padding: 24px; text-align: center; }
+  .err-box {
+    background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 9px; padding: 18px 22px; color: #fca5a5; font-size: 0.85rem;
+    grid-column: 1/-1;
+  }
+  .err-box strong { display: block; margin-bottom: 8px; font-size: 0.95rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 22px; color: var(--muted);
+    font-size: 0.72rem; border-top: 1px solid var(--border); margin-top: 40px;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .main { padding: 12px 10px 50px; }
+    .groups-grid { grid-template-columns: 1fr; }
+    .ml-row { gap: 6px; padding: 9px 10px; }
+    .ml-teams { font-size: 0.78rem; }
+    .ml-score-big { font-size: 1rem; }
+    .back-link { font-size: 0.7rem; padding: 3px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="index.html">← スケジュール</a>
+  <div class="flag-row">🏆🌍⚽</div>
+  <h1>FIFA ワールドカップ 2026 — トーナメント進捗</h1>
+  <p>グループ順位表 / ノックアウトブラケット / 全試合</p>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="groups">🌐 グループステージ</button>
+  <button class="tab-btn" data-tab="bracket">🏅 ブラケット</button>
+  <button class="tab-btn" data-tab="matches">📋 試合一覧</button>
+</div>
+
+<div class="main">
+  <div class="api-status-bar">
+    <div class="status-dot wait" id="sDot"></div>
+    <span id="sText">データ取得中…</span>
+    <button class="refresh-btn" onclick="loadAll()">↻ 更新</button>
+  </div>
+
+  <!-- GROUPS -->
+  <div class="view active" id="view-groups">
+    <div class="groups-grid" id="groupsGrid">
+      <div class="group-card"><div class="group-header"><div class="skel" style="width:80px;height:16px"></div></div><div style="padding:12px"><div class="skel" style="margin:6px 0"></div><div class="skel" style="margin:6px 0"></div><div class="skel"></div></div></div>
+      <div class="group-card"><div class="group-header"><div class="skel" style="width:80px;height:16px"></div></div><div style="padding:12px"><div class="skel" style="margin:6px 0"></div><div class="skel" style="margin:6px 0"></div><div class="skel"></div></div></div>
+      <div class="group-card"><div class="group-header"><div class="skel" style="width:80px;height:16px"></div></div><div style="padding:12px"><div class="skel" style="margin:6px 0"></div><div class="skel" style="margin:6px 0"></div><div class="skel"></div></div></div>
+      <div class="group-card"><div class="group-header"><div class="skel" style="width:80px;height:16px"></div></div><div style="padding:12px"><div class="skel" style="margin:6px 0"></div><div class="skel" style="margin:6px 0"></div><div class="skel"></div></div></div>
+    </div>
+  </div>
+
+  <!-- BRACKET -->
+  <div class="view" id="view-bracket">
+    <div class="bracket-outer">
+      <div class="bracket-rounds" id="bracketRounds">
+        <div class="no-knockout">ノックアウトステージのデータを読み込み中…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MATCHES -->
+  <div class="view" id="view-matches">
+    <div class="filter-row">
+      <button class="mf-btn active" data-filter="ALL">すべて</button>
+      <button class="mf-btn" data-filter="LIVE">🔴 ライブ</button>
+      <button class="mf-btn" data-filter="FINISHED">✅ 終了</button>
+      <button class="mf-btn" data-filter="SCHEDULED">🕐 予定</button>
+    </div>
+    <div class="match-list" id="matchList">
+      <div class="empty">データを読み込み中…</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  データ提供: <a href="https://www.football-data.org" target="_blank">football-data.org</a>
+  &nbsp;|&nbsp; <a href="index.html">← 全試合スケジュールに戻る</a>
+</footer>
+
+<script>
+(function() {
+  var API_TOKEN = 'fe4edac284a34af68c7effc03aafe07b';
+  var allMatches = [];
+  var currentFilter = 'ALL';
+
+  // ── PROXY FETCH (CORS回避) ──
+  function fetchWithProxy(apiPath, cb) {
+    var apiUrl = 'https://api.football-data.org/v4' + apiPath;
+    var proxies = [
+      'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl),
+      'https://corsproxy.io/?' + encodeURIComponent(apiUrl),
+      'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(apiUrl)
+    ];
+    function tryNext(i) {
+      if (i >= proxies.length) { cb(new Error('プロキシ全滅'), null); return; }
+      fetch(proxies[i])
+        .then(function(res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function(data) { cb(null, data); })
+        .catch(function(err) {
+          console.warn('proxy[' + i + '] failed:', err.message);
+          tryNext(i + 1);
+        });
+    }
+    tryNext(0);
+  }
+
+  // ── STATUS ──
+  function setStatus(state, msg) {
+    document.getElementById('sDot').className = 'status-dot ' + state;
+    document.getElementById('sText').textContent = msg;
+  }
+
+  // ── LOAD ALL ──
+  function loadAll() {
+    setStatus('wait', 'データ取得中…');
+    var done = 0;
+    var results = {};
+    var failed = 0;
+
+    function check() {
+      done++;
+      if (done < 2) return;
+      if (failed === 2) {
+        setStatus('err', '⚠️ データ取得失敗 — しばらく後に再試行してください');
+        showError('全プロキシが失敗しました。football-data.orgの負荷が高い可能性があります。');
+        return;
+      }
+      if (results.standings) renderGroups(results.standings.standings || []);
+      if (results.matches) {
+        allMatches = results.matches.matches || [];
+        renderBracket(allMatches);
+        renderMatches(allMatches, currentFilter);
+      }
+      var now = new Date().toLocaleString('ja-JP', { timeZone: 'America/Chicago' });
+      setStatus('ok', '✅ 更新済: ' + now + ' (Dallas時間)');
+    }
+
+    fetchWithProxy('/competitions/WC/standings', function(err, data) {
+      if (err) { failed++; } else { results.standings = data; }
+      check();
+    });
+    fetchWithProxy('/competitions/WC/matches?limit=200', function(err, data) {
+      if (err) { failed++; } else { results.matches = data; }
+      check();
+    });
+  }
+  window.loadAll = loadAll;
+
+  // ── TAB SWITCHING ──
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('view-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ── FILTER BUTTONS ──
+  document.querySelectorAll('.mf-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.mf-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderMatches(allMatches, currentFilter);
+    });
+  });
+
+  // ── RENDER GROUPS ──
+  function renderGroups(standings) {
+    var grid = document.getElementById('groupsGrid');
+    var groups = standings.filter(function(s) { return s.type === 'TOTAL' || !s.type; });
+    if (!groups.length) {
+      grid.innerHTML = '<div class="err-box"><strong>グループデータなし</strong>現在スタンディングが取得できませんでした。</div>';
+      return;
+    }
+    grid.innerHTML = groups.map(function(g) {
+      var name = g.group ? g.group.replace('GROUP_', 'グループ ') : 'グループ';
+      var rows = (g.table || []).map(function(row) {
+        var q = row.position <= 2;
+        var form = (row.form || '').split('').slice(-5).map(function(f) {
+          return '<span class="fp fp-' + f.toLowerCase() + '"></span>';
+        }).join('');
+        var gd = row.goalDifference > 0 ? ('+' + row.goalDifference) : row.goalDifference;
+        return '<tr class="' + (q ? 'qualified' : '') + '">'
+          + '<td><div class="team-cell">'
+          + '<span class="pos-num">' + row.position + '</span>'
+          + (row.team.crest ? '<img class="team-crest" src="' + row.team.crest + '" alt="" onerror="this.style.display=\'none\'">' : '')
+          + '<span class="team-short">' + (row.team.shortName || row.team.tla || row.team.name) + '</span>'
+          + '</div></td>'
+          + '<td>' + row.playedGames + '</td>'
+          + '<td>' + row.won + '</td>'
+          + '<td>' + row.draw + '</td>'
+          + '<td>' + row.lost + '</td>'
+          + '<td>' + row.goalsFor + '</td>'
+          + '<td>' + row.goalsAgainst + '</td>'
+          + '<td>' + gd + '</td>'
+          + '<td class="pts-val">' + row.points + '</td>'
+          + '<td><div class="form-pills">' + form + '</div></td>'
+          + '</tr>';
+      }).join('');
+      return '<div class="group-card">'
+        + '<div class="group-header"><span class="group-label">' + name + '</span></div>'
+        + '<table class="standings-table">'
+        + '<thead><tr><th>チーム</th><th>試</th><th>勝</th><th>分</th><th>負</th><th>得</th><th>失</th><th>差</th><th>点</th><th>形</th></tr></thead>'
+        + '<tbody>' + rows + '</tbody>'
+        + '</table></div>';
+    }).join('');
+  }
+
+  // ── RENDER BRACKET ──
+  var STAGE_NAMES = {
+    'ROUND_OF_32':    'ラウンド32',
+    'ROUND_OF_16':    'ラウンド16',
+    'QUARTER_FINALS': '準々決勝',
+    'SEMI_FINALS':    '準決勝',
+    'THIRD_PLACE':    '3位決定戦',
+    'FINAL':          '決勝'
+  };
+  var STAGE_ORDER = ['ROUND_OF_32','ROUND_OF_16','QUARTER_FINALS','SEMI_FINALS','THIRD_PLACE','FINAL'];
+
+  function renderBracket(matches) {
+    var rounds = {};
+    matches.forEach(function(m) {
+      if (STAGE_NAMES[m.stage]) {
+        if (!rounds[m.stage]) rounds[m.stage] = [];
+        rounds[m.stage].push(m);
+      }
+    });
+    var present = STAGE_ORDER.filter(function(s) { return rounds[s]; });
+    var container = document.getElementById('bracketRounds');
+    if (!present.length) {
+      container.innerHTML = '<div class="no-knockout">グループステージ進行中。<br>ノックアウトステージ開始後にブラケットが表示されます。</div>';
+      return;
+    }
+    container.innerHTML = present.map(function(stage) {
+      var isFinal = stage === 'FINAL' || stage === 'THIRD_PLACE';
+      var cards = rounds[stage].map(function(m) {
+        var hs = m.score && m.score.fullTime ? m.score.fullTime.home : null;
+        var as = m.score && m.score.fullTime ? m.score.fullTime.away : null;
+        var fin = m.status === 'FINISHED';
+        var live = m.status === 'IN_PLAY' || m.status === 'PAUSED';
+        var hName = (m.homeTeam && m.homeTeam.name) || '';
+        var aName = (m.awayTeam && m.awayTeam.name) || '';
+        var hCrest = (m.homeTeam && m.homeTeam.crest) || '';
+        var aCrest = (m.awayTeam && m.awayTeam.crest) || '';
+        var hWin = fin && hs > as;
+        var aWin = fin && as > hs;
+        var dateStr = '';
+        if (m.utcDate) {
+          dateStr = new Date(m.utcDate).toLocaleDateString('ja-JP', {
+            timeZone: 'America/Chicago', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+          });
+        }
+        function teamRow(name, crest, score, win, tbd) {
+          var nameHtml = tbd
+            ? '<span class="tbd-name">未定</span>'
+            : (crest ? '<img src="' + crest + '" alt="" onerror="this.style.display=\'none\'">' : '')
+              + '<span>' + (name.length > 13 ? name.slice(0,13) + '…' : name) + '</span>';
+          var scoreHtml = score != null
+            ? '<span class="bm-score ' + (win ? 'win' : (fin ? 'loss' : '')) + '">' + score + '</span>'
+            : (live ? '<span class="bm-score">–</span>' : '');
+          return '<div class="bm-team"><div class="bm-name">' + nameHtml + '</div>' + scoreHtml + '</div>';
+        }
+        return '<div class="bm-card' + (isFinal ? ' is-final' : '') + '">'
+          + teamRow(hName, hCrest, hs, hWin, !hName)
+          + teamRow(aName, aCrest, as, aWin, !aName)
+          + (dateStr ? '<div class="bm-date">' + dateStr + '</div>' : '')
+          + '</div>';
+      }).join('');
+      return '<div class="round-col"><div class="round-head">' + STAGE_NAMES[stage] + '</div><div class="round-matches">' + cards + '</div></div>';
+    }).join('');
+  }
+
+  // ── RENDER MATCHES ──
+  function renderMatches(matches, filter) {
+    var list = document.getElementById('matchList');
+    var filtered = matches.filter(function(m) {
+      if (filter === 'ALL') return true;
+      if (filter === 'LIVE') return m.status === 'IN_PLAY' || m.status === 'PAUSED';
+      if (filter === 'FINISHED') return m.status === 'FINISHED';
+      if (filter === 'SCHEDULED') return m.status === 'TIMED' || m.status === 'SCHEDULED';
+      return true;
+    });
+    if (!filtered.length) {
+      list.innerHTML = '<div class="empty">' + (filter === 'LIVE' ? '現在ライブ試合はありません' : '該当試合なし') + '</div>';
+      return;
+    }
+    list.innerHTML = filtered.map(function(m) {
+      var hs = m.score && m.score.fullTime ? m.score.fullTime.home : null;
+      var as = m.score && m.score.fullTime ? m.score.fullTime.away : null;
+      var fin = m.status === 'FINISHED';
+      var live = m.status === 'IN_PLAY' || m.status === 'PAUSED';
+      var hName = (m.homeTeam && m.homeTeam.name) || '未定';
+      var aName = (m.awayTeam && m.awayTeam.name) || '未定';
+      var hCrest = (m.homeTeam && m.homeTeam.crest) || '';
+      var aCrest = (m.awayTeam && m.awayTeam.crest) || '';
+      var date = m.utcDate ? new Date(m.utcDate).toLocaleDateString('ja-JP', {
+        timeZone: 'America/Chicago', month: 'short', day: 'numeric',
+        weekday: 'short', hour: '2-digit', minute: '2-digit'
+      }) : '';
+      var stageName = STAGE_NAMES[m.stage] || (m.stage ? m.stage.replace(/_/g,' ') : '');
+      var badge = live
+        ? '<span class="badge badge-live">LIVE</span>'
+        : fin
+          ? '<span class="badge badge-fin">終了</span>'
+          : '<span class="badge badge-sch">予定</span>';
+      var hImg = hCrest ? '<img src="' + hCrest + '" alt="" onerror="this.style.display=\'none\'">' : '';
+      var aImg = aCrest ? '<img src="' + aCrest + '" alt="" onerror="this.style.display=\'none\'">' : '';
+      return '<div class="ml-row">'
+        + '<div class="ml-home"><div class="ml-teams">' + hName + hImg + '</div></div>'
+        + '<div class="ml-center">'
+          + (fin || live
+            ? '<div class="ml-score-big">' + (hs != null ? hs : '–') + ' : ' + (as != null ? as : '–') + '</div>'
+            : '<div class="ml-vs">VS</div>')
+          + '<div class="ml-meta">' + badge + '</div>'
+          + '<div class="ml-meta">' + date + '</div>'
+          + (stageName ? '<div class="ml-meta">' + stageName + '</div>' : '')
+          + (m.venue ? '<div class="ml-meta">📍 ' + m.venue + '</div>' : '')
+        + '</div>'
+        + '<div class="ml-away"><div class="ml-teams">' + aImg + aName + '</div></div>'
+        + '</div>';
+    }).join('');
+  }
+
+  // ── ERROR ──
+  function showError(msg) {
+    document.getElementById('groupsGrid').innerHTML =
+      '<div class="err-box"><strong>⚠️ データ取得エラー</strong>'
+      + msg
+      + '<br><br><button class="refresh-btn" style="border-color:rgba(239,68,68,0.5);color:#fca5a5" onclick="loadAll()">↻ 再試行</button></div>';
+  }
+
+  // ── INIT ──
+  loadAll();
+  // 5分ごと自動更新（試合中の時間帯のみ）
+  setInterval(function() {
+    var h = new Date().getUTCHours() - 5; // CDT
+    if (h < 0) h += 24;
+    if (h >= 10 && h <= 23) loadAll();
+  }, 5 * 60 * 1000);
+
+})();
+</script>
+</body>
+</html>
