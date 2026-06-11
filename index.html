@@ -1185,22 +1185,8 @@
     var statusEl = document.getElementById('api-status');
     if (statusEl) statusEl.textContent = '結果を読み込み中…';
 
-    // トークンをURLパラメータに含める（プロキシ経由でヘッダーが通らないため）
-    var apiUrl = 'https://api.football-data.org/v4/competitions/WC/matches?season=2026&token=' + API_TOKEN;
-
-    // Try proxies in order
-    var proxies = [
-      'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl),
-      'https://corsproxy.io/?' + encodeURIComponent(apiUrl),
-      'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(apiUrl),
-    ];
-
-    function tryProxy(index) {
-      if (index >= proxies.length) {
-        if (statusEl) statusEl.textContent = '⚠️ 結果取得失敗（プロキシ全滅）';
-        return;
-      }
-      fetch(proxies[index])
+    // GitHub Actionsが10分ごとに更新するmatches.jsonを読む（CORSなし・高速）
+    fetch('matches.json?_=' + Date.now())
       .then(function(res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.json();
@@ -1223,17 +1209,14 @@
           var score = m.score;
           function getScore(obj) {
             if (!obj) return [null, null];
-            // v4 API: { home: N, away: N } or { homeTeam: N, awayTeam: N }
             var h = obj.home != null ? obj.home : (obj.homeTeam != null ? obj.homeTeam : null);
             var a = obj.away != null ? obj.away : (obj.awayTeam != null ? obj.awayTeam : null);
             return [h, a];
           }
           var home, away, sa;
           if (status === 'IN_PROGRESS' || status === 'PAUSED') {
-            // ライブ中はcurrentまたはhalfTimeから
             sa = getScore(score && (score.current || score.halfTime));
           } else {
-            // 終了後: fullTime → regularTime → winner の順で探す
             sa = getScore(score && (score.fullTime || score.regularTime));
           }
           home = sa[0]; away = sa[1];
@@ -1241,15 +1224,13 @@
           updated++;
         }
         if (statusEl) {
-          statusEl.textContent = updated > 0 ? '✅ ' + updated + '試合の結果を更新' : '✅ まだ結果なし（大会前）';
+          statusEl.textContent = updated > 0 ? '✅ ' + updated + '試合の結果を更新' : '✅ まだ結果なし';
         }
       })
       .catch(function(err) {
-        console.warn('proxy[' + index + '] failed:', err);
-        tryProxy(index + 1);
+        if (statusEl) statusEl.textContent = '⚠️ matches.json未取得';
+        console.warn('matches.json load failed:', err);
       });
-    }
-    tryProxy(0);
   }
 
   // refresh every 60 seconds during live matches
