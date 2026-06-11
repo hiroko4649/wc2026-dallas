@@ -1224,12 +1224,22 @@
           var card = findCardByTeams(homeJP, awayJP);
           if (!card) continue;
           var score = m.score;
-          var home = score && score.fullTime ? score.fullTime.home : null;
-          var away = score && score.fullTime ? score.fullTime.away : null;
-          if (status === 'IN_PROGRESS' || status === 'PAUSED') {
-            home = score && score.halfTime ? score.halfTime.home : null;
-            away = score && score.halfTime ? score.halfTime.away : null;
+          function getScore(obj) {
+            if (!obj) return [null, null];
+            // v4 API: { home: N, away: N } or { homeTeam: N, awayTeam: N }
+            var h = obj.home != null ? obj.home : (obj.homeTeam != null ? obj.homeTeam : null);
+            var a = obj.away != null ? obj.away : (obj.awayTeam != null ? obj.awayTeam : null);
+            return [h, a];
           }
+          var home, away, sa;
+          if (status === 'IN_PROGRESS' || status === 'PAUSED') {
+            // ライブ中はcurrentまたはhalfTimeから
+            sa = getScore(score && (score.current || score.halfTime));
+          } else {
+            // 終了後: fullTime → regularTime → winner の順で探す
+            sa = getScore(score && (score.fullTime || score.regularTime));
+          }
+          home = sa[0]; away = sa[1];
           injectResult(card, home, away, status);
           updated++;
         }
