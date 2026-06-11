@@ -1185,7 +1185,8 @@
     var statusEl = document.getElementById('api-status');
     if (statusEl) statusEl.textContent = '結果を読み込み中…';
 
-    var apiUrl = 'https://api.football-data.org/v4/competitions/WC/matches?season=2026';
+    // トークンをURLパラメータに含める（プロキシ経由でヘッダーが通らないため）
+    var apiUrl = 'https://api.football-data.org/v4/competitions/WC/matches?season=2026&token=' + API_TOKEN;
 
     // Try proxies in order
     var proxies = [
@@ -1199,12 +1200,8 @@
         if (statusEl) statusEl.textContent = '⚠️ 結果取得失敗（プロキシ全滅）';
         return;
       }
-      fetch(proxies[index], {
-        headers: { 'X-Auth-Token': API_TOKEN }
-      })
-    .then(function(res) {
-        var remaining = res.headers.get('X-Requests-Available-Minute');
-        if (statusEl && remaining) statusEl.textContent = '✅ 結果取得済（残りAPI: ' + remaining + '/分）';
+      fetch(proxies[index])
+      .then(function(res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.json();
       })
