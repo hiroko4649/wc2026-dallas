@@ -1,0 +1,28 @@
+name: Fetch WC2026 Match Results
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'   # 10分ごと（大会期間中）
+  workflow_dispatch:           # 手動実行も可能
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch matches from football-data.org
+        run: |
+          curl -s \
+            -H "X-Auth-Token: fe4edac284a34af68c7effc03aafe07b" \
+            "https://api.football-data.org/v4/competitions/WC/matches?season=2026" \
+            -o matches.json
+          echo "Fetched $(cat matches.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(len(d.get('matches',[])))") matches"
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add matches.json
+          git diff --staged --quiet || git commit -m "Update match results $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
