@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API取得問題と解決の記録 | WC2026 Dallas</title>
+<style>
+  :root {
+    --bg: #07101f;
+    --surface: #0e1c30;
+    --surface2: #162540;
+    --border: #1e3050;
+    --text: #e8edf5;
+    --muted: #6e85a0;
+    --gold: #f5c518;
+    --green: #22c55e;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --orange: #f97316;
+    --code-bg: #060e1c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(160deg, #060f22 0%, #0e2040 60%, #091830 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 36px 24px 28px;
+    text-align: center;
+  }
+  header .eyebrow {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 10px;
+  }
+  header h1 {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 900; color: var(--text);
+    line-height: 1.25; margin-bottom: 10px;
+  }
+  header p { color: var(--muted); font-size: 0.88rem; }
+  .back-link {
+    display: inline-block; margin-top: 18px;
+    color: var(--muted); text-decoration: none; font-size: 0.78rem;
+    border: 1px solid var(--border); padding: 4px 14px; border-radius: 20px;
+    transition: all .15s;
+  }
+  .back-link:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ── MAIN ── */
+  main { max-width: 780px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* ── SUMMARY BOX ── */
+  .summary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--green);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .summary strong { color: var(--text); }
+  .summary .result-badge {
+    display: inline-block;
+    background: rgba(34,197,94,.12);
+    border: 1px solid rgba(34,197,94,.3);
+    color: var(--green);
+    font-size: 0.72rem; font-weight: 800;
+    padding: 2px 10px; border-radius: 20px;
+    letter-spacing: 0.06em; margin-left: 8px;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 10px; top: 8px; bottom: 8px;
+    width: 2px; background: var(--border);
+  }
+  .tl-item { position: relative; margin-bottom: 36px; }
+  .tl-dot {
+    position: absolute; left: -26px; top: 4px;
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid var(--bg);
+    flex-shrink: 0;
+  }
+  .tl-dot.attempt  { background: var(--red); }
+  .tl-dot.insight  { background: var(--orange); }
+  .tl-dot.solution { background: var(--green); }
+  .tl-dot.success  { background: var(--gold); }
+
+  .tl-label {
+    font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 5px;
+  }
+  .tl-label.attempt  { color: var(--red); }
+  .tl-label.insight  { color: var(--orange); }
+  .tl-label.solution { color: var(--green); }
+  .tl-label.success  { color: var(--gold); }
+
+  .tl-title {
+    font-size: 1rem; font-weight: 800;
+    color: var(--text); margin-bottom: 8px;
+  }
+  .tl-body {
+    font-size: 0.85rem; color: var(--muted); line-height: 1.75;
+  }
+  .tl-body strong { color: var(--text); }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 14px 16px;
+    margin: 12px 0;
+    font-family: 'Consolas', 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    color: #a8b8d0;
+  }
+  .code-block .c-key   { color: #79b8ff; }
+  .code-block .c-str   { color: #9ecbff; }
+  .code-block .c-val   { color: #f0c069; }
+  .code-block .c-err   { color: var(--red); }
+  .code-block .c-ok    { color: var(--green); }
+  .code-block .c-cmt   { color: #4a6080; }
+
+  /* ── ERROR BOX ── */
+  .error-quote {
+    background: rgba(239,68,68,0.07);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 7px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.78rem;
+    font-family: 'Consolas', monospace;
+    color: #fca5a5;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+
+  /* ── DIVIDER ── */
+  .section-title {
+    font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px; margin: 48px 0 28px;
+  }
+
+  /* ── LESSON BOX ── */
+  .lesson-box {
+    background: rgba(245,197,24,0.06);
+    border: 1px solid rgba(245,197,24,0.2);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-top: 40px;
+  }
+  .lesson-box h3 {
+    color: var(--gold); font-size: 0.85rem;
+    font-weight: 800; letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .lesson-item {
+    display: flex; gap: 12px;
+    font-size: 0.85rem; color: var(--muted);
+    margin-bottom: 10px; line-height: 1.6;
+  }
+  .lesson-item::before {
+    content: '→'; color: var(--gold);
+    flex-shrink: 0; font-weight: 700;
+  }
+  .lesson-item strong { color: var(--text); }
+
+  /* ── ARCH DIAGRAM ── */
+  .arch {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; flex-wrap: wrap;
+    margin: 16px 0; font-size: 0.78rem;
+  }
+  .arch-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 8px 14px;
+    text-align: center;
+    font-weight: 700;
+  }
+  .arch-box.highlight { border-color: var(--green); color: var(--green); }
+  .arch-box.dim { opacity: 0.4; }
+  .arch-arrow {
+    padding: 0 8px; color: var(--muted); font-size: 1rem;
+  }
+  .arch-arrow.cross { color: var(--red); }
+  .arch-label {
+    font-size: 0.65rem; color: var(--muted);
+    text-align: center; margin-top: 3px;
+  }
+  .arch-col { display: flex; flex-direction: column; align-items: center; }
+
+  @media (max-width: 600px) {
+    main { padding: 24px 14px 60px; }
+    .arch { gap: 4px; }
+    .arch-box { padding: 6px 10px; font-size: 0.72rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">📋 技術ログ / Tech Log</div>
+  <h1>football-data.org API<br>フェッチ問題と解決の記録</h1>
+  <p>WC2026 Dallas スケジュールアプ — 2026年6月12日</p>
+  <a class="back-link" href="index.html">← スケジュールに戻る</a>
+</header>
+
+<main>
+
+  <div class="summary">
+    <strong>概要：</strong>
+    ワールドカップ開幕後、試合結果がアプリに表示されず「null - null」と出る問題が発生。
+    原因はCORSポリシーによりブラウザから外部APIに直接アクセスできないことで、
+    試行錯誤の末、<strong>GitHub Actionsで定期的にAPIを取得してJSONファイルとして
+    リポジトリに保存し、HTMLはそのローカルファイルを読む</strong>という構造に変更することで解決した。
+    <span class="result-badge">✅ 解決済み</span>
+  </div>
+
+  <div class="section-title">問題発生から解決までの流れ</div>
+
+  <div class="timeline">
+
+    <!-- STEP 1 -->
+    <div class="tl-item">
+      <div class="tl-dot attempt"></div>
+      <div class="tl-label attempt">問題発生</div>
+      <div class="tl-title">試合結果が「null - null」と表示される</div>
+      <div class="tl-body">
+        大会開幕後、第1戦（メキシコ vs 南アフリカ）終了後もスコアが表示されず、
+        代わりに「<strong>null - null 終了</strong>」と表示された。
+        「終了」バッジは出ているため、APIからデータは届いているが、
+        スコアの値だけが取得できていない状態。
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="tl-item">
+      <div class="tl-dot attempt"></div>
+      <div class="tl-label attempt">第1の試み（失敗）</div>
+      <div class="tl-title">スコアのフィールド名を修正</div>
+      <div class="tl-body">
+        football-data.org v4 APIはスコアを
+        <strong><code>score.fullTime.home</code></strong> ではなく
+        <strong><code>score.fullTime.homeTeam</code></strong> で返す場合があると判断し、
+        両方のフィールド名に対応するよう修正。
+        <div class="code-block"><span class="c-cmt">// 修正前</span>
+<span class="c-key">var</span> home = score.fullTime.home;
+
+<span class="c-cmt">// 修正後（両パターンに対応）</span>
+<span class="c-key">var</span> h = obj.home != <span class="c-val">null</span>
+  ? obj.home
+  : (obj.homeTeam != <span class="c-val">null</span> ? obj.homeTeam : <span class="c-val">null</span>);</div>
+        結果：依然として「null - null」のまま。
+        根本原因はフィールド名ではなかった。
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="tl-item">
+      <div class="tl-dot insight"></div>
+      <div class="tl-label insight">原因判明</div>
+      <div class="tl-title">CORSエラー — プロキシ経由でAPIキーが通らない</div>
+      <div class="tl-body">
+        ブラウザのコンソールを確認すると、実際にはAPIへのアクセス自体が失敗していた。
+        <div class="error-quote">Access to fetch at 'https://api.allorigins.win/raw?url=...'
+has been blocked by CORS policy:
+Request header field <strong>x-auth-token</strong> is not allowed
+by Access-Control-Allow-Headers in preflight response.</div>
+        <strong>CORS（Cross-Origin Resource Sharing）</strong>とは、
+        ブラウザが異なるドメインへのリクエストを制限するセキュリティ機能。
+        football-data.orgへの直接アクセスを避けるためプロキシ（allorigins.win等）を
+        経由していたが、プロキシが <code>X-Auth-Token</code> カスタムヘッダーを転送できないため
+        認証が通らず、データは取得できていなかった。
+        <br><br>
+        つまり「null - null」は「APIが0点を返した」のではなく、
+        「APIへのアクセス自体が失敗してデータが空」だったのが原因。
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="tl-item">
+      <div class="tl-dot attempt"></div>
+      <div class="tl-label attempt">第2の試み（失敗）</div>
+      <div class="tl-title">APIキーをURLパラメータに変更</div>
+      <div class="tl-body">
+        ヘッダーが通らないなら、URLパラメータとしてトークンを渡す方式に変更。
+        football-data.orgは <code>?token=xxx</code> の形式も公式サポートしている。
+        <div class="code-block"><span class="c-cmt">// ヘッダー方式（失敗）</span>
+fetch(url, { headers: { <span class="c-str">'X-Auth-Token'</span>: token } })
+
+<span class="c-cmt">// URLパラメータ方式（試み）</span>
+<span class="c-key">var</span> apiUrl = <span class="c-str">'https://api.football-data.org/v4/...'</span>
+  + <span class="c-str">'&token='</span> + API_TOKEN;</div>
+        結果：3つのプロキシが全て異なる理由で失敗。
+        <div class="error-quote">allorigins.win  → HTTP 522（サーバーダウン）
+corsproxy.io    → HTTP 403（football-data.orgがブロック）
+codetabs.com    → HTTP 400（Bad Request）</div>
+        football-data.orgがプロキシサーバーのIPアドレスを広くブロックしており、
+        プロキシ経由のアクセス自体が根本的に機能しない状態だった。
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="tl-item">
+      <div class="tl-dot solution"></div>
+      <div class="tl-label solution">解決策</div>
+      <div class="tl-title">GitHub Actionsでサーバーサイド取得に切り替え</div>
+      <div class="tl-body">
+        ブラウザからAPIを叩くのではなく、<strong>GitHub Actions（サーバーサイド）</strong>が
+        定期的にAPIを取得して結果をJSONファイルとしてリポジトリに保存。
+        HTMLはそのJSONファイルを読むだけにする構造に変更。
+
+        <div class="arch">
+          <div class="arch-col">
+            <div class="arch-box dim">ブラウザ</div>
+            <div class="arch-label">GitHub Pages</div>
+          </div>
+          <div class="arch-arrow cross">✕</div>
+          <div class="arch-col">
+            <div class="arch-box dim">プロキシ</div>
+            <div class="arch-label">allorigins等</div>
+          </div>
+          <div class="arch-arrow cross">✕</div>
+          <div class="arch-col">
+            <div class="arch-box dim">API</div>
+            <div class="arch-label">football-data.org</div>
+          </div>
+        </div>
+        <div style="text-align:center;font-size:0.75rem;color:var(--muted);margin:6px 0 14px">旧構造（失敗）</div>
+
+        <div class="arch">
+          <div class="arch-col">
+            <div class="arch-box highlight">ブラウザ</div>
+            <div class="arch-label">GitHub Pages</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-col">
+            <div class="arch-box highlight">matches.json</div>
+            <div class="arch-label">同一リポジトリ</div>
+          </div>
+          <div style="width:60px;text-align:center;font-size:0.72rem;color:var(--muted);padding:0 4px">
+            ↑<br>10分ごと更新
+          </div>
+          <div class="arch-col">
+            <div class="arch-box highlight">GitHub Actions</div>
+            <div class="arch-label">サーバーサイド</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-col">
+            <div class="arch-box highlight">API</div>
+            <div class="arch-label">football-data.org</div>
+          </div>
+        </div>
+        <div style="text-align:center;font-size:0.75rem;color:var(--green);margin:6px 0 14px">新構造（✅ 成功）</div>
+
+        GitHub Actionsのワークフローファイル（<code>.github/workflows/fetch-matches.yml</code>）：
+        <div class="code-block"><span class="c-key">name:</span> <span class="c-str">Fetch WC2026 Match Results</span>
+<span class="c-key">on:</span>
+  <span class="c-key">schedule:</span>
+    - <span class="c-key">cron:</span> <span class="c-str">'*/10 * * * *'</span>  <span class="c-cmt"># 10分ごと</span>
+  <span class="c-key">workflow_dispatch:</span>      <span class="c-cmt"># 手動実行も可</span>
+
+<span class="c-key">permissions:</span>
+  <span class="c-key">contents:</span> <span class="c-str">write</span>       <span class="c-cmt"># ← これがないとpush失敗</span>
+
+<span class="c-key">jobs:</span>
+  <span class="c-key">fetch:</span>
+    <span class="c-key">runs-on:</span> <span class="c-str">ubuntu-latest</span>
+    <span class="c-key">steps:</span>
+      - <span class="c-key">uses:</span> <span class="c-str">actions/checkout@v4</span>
+      - <span class="c-key">name:</span> <span class="c-str">Fetch matches</span>
+        <span class="c-key">run:</span> |
+          curl -s \
+            -H <span class="c-str">"X-Auth-Token: $TOKEN"</span> \
+            <span class="c-str">"https://api.football-data.org/v4/..."</span> \
+            -o matches.json
+      - <span class="c-key">name:</span> <span class="c-str">Commit and push</span>
+        <span class="c-key">run:</span> |
+          git config user.name <span class="c-str">"github-actions[bot]"</span>
+          git add matches.json
+          git diff --staged --quiet || \
+            git commit -m <span class="c-str">"Update match results"</span>
+          git push</div>
+        HTMLの読み込みも同じリポジトリの <code>matches.json</code> を参照するよう変更：
+        <div class="code-block"><span class="c-cmt">// プロキシなし・CORSなし・シンプル</span>
+fetch(<span class="c-str">'matches.json?_='</span> + Date.now())
+  .then(<span class="c-key">function</span>(res) { <span class="c-key">return</span> res.json(); })
+  .then(<span class="c-key">function</span>(data) {
+    <span class="c-cmt">// スコアを表示...</span>
+  });</div>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="tl-item">
+      <div class="tl-dot success"></div>
+      <div class="tl-label success">解決確認</div>
+      <div class="tl-title">メキシコ vs 南アフリカのスコアが表示された ⚽</div>
+      <div class="tl-body">
+        GitHub ActionsでAPIの手動実行を行い <code>matches.json</code> が
+        リポジトリに作成されたことを確認。
+        その後 <code>index.html</code> を更新したことで、
+        第1戦の結果が正しく表示されるようになった。
+        以降は10分ごとに自動更新される。
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+
+  <div class="lesson-box">
+    <h3>📌 学んだこと</h3>
+    <div class="lesson-item">
+      <div><strong>「null - null」はデータが来ていないサイン。</strong>
+      フィールド名の問題より先に、そもそもAPIリクエストが成功しているかをコンソールで確認すべきだった。</div>
+    </div>
+    <div class="lesson-item">
+      <div><strong>CORSはブラウザのセキュリティ機能。</strong>
+      ブラウザから別ドメインへのリクエストには制限がある。
+      カスタムヘッダー（X-Auth-Token等）を含むリクエストは特に制約が厳しい。</div>
+    </div>
+    <div class="lesson-item">
+      <div><strong>パブリックなCORSプロキシは不安定。</strong>
+      allorigins.win・corsproxy.io等は無料サービスのためダウンタイムがあり、
+      APIプロバイダーにブロックされることも多い。本番環境では信頼できない。</div>
+    </div>
+    <div class="lesson-item">
+      <div><strong>GitHub ActionsはAPIキーを安全に使える。</strong>
+      サーバーサイドでの実行なのでCORS制限がなく、
+      定期的なデータ取得と静的ファイル更新の組み合わせは静的サイトの定番パターン。</div>
+    </div>
+    <div class="lesson-item">
+      <div><strong>permissions: contents: writeは必須。</strong>
+      GitHub ActionsがリポジトリにPushするには明示的な書き込み権限の設定が必要。
+      ないとexit code 128で失敗する。</div>
+    </div>
+  </div>
+
+</main>
+
+</body>
+</html>
