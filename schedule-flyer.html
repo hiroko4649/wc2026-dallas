@@ -82,9 +82,23 @@ body{font-family:'Noto Sans JP',sans-serif;background:#f0f4f8;color:#1a202c;font
 
 /* ── PRINT ── */
 @media print{
-  body{background:#fff}
-  .page{margin:0;padding:8mm 7mm;box-shadow:none;width:100%}
+  @page{size:A4 portrait;margin:4mm}
+  body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .noprint{display:none}
+  .page{margin:0;padding:3mm;box-shadow:none;width:100%;min-height:unset}
+  .hdr{padding:4px 10px 4px;margin-bottom:3px}
+  .hdr-left h1{font-size:11pt}
+  .leg{padding:3px 8px;margin-bottom:3px;font-size:6.5pt}
+  .legit img{height:11px}
+  .cols{gap:3px}
+  .fday{margin-bottom:2px}
+  .fdhead{padding:2px 6px;font-size:7.5pt}
+  .frow{padding:1.5px 5px;font-size:6.5pt}
+  .ftime{font-size:6.5pt;width:34px}
+  .fteams{font-size:6.5pt}
+  .fgrp{font-size:5.5pt;padding:1px 3px}
+  .fb{height:11px}
+  .fnote{margin-top:3px;padding-top:3px;font-size:6pt}
 }
 
 /* ── SCREEN ONLY ── */
