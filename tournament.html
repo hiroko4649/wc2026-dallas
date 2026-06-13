@@ -92,7 +92,7 @@
   /* ── GROUP GRID ── */
   .groups-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 14px;
   }
   .group-card {
@@ -113,9 +113,9 @@
     letter-spacing: 0.05em; background: rgba(255,255,255,0.02);
     overflow: hidden;
   }
-  .standings-table th:first-child { text-align: left; padding-left: 12px; width: 42%; }
-  .standings-table th:nth-child(n+2) { width: 6.5%; }
-  .standings-table th:last-child { width: 8%; }
+  .standings-table th:first-child { text-align: left; padding-left: 12px; width: 36%; }
+  .standings-table th:nth-child(n+2):nth-child(-n+9) { width: 5.5%; }
+  .standings-table th:last-child { width: 14%; }
   .standings-table td {
     padding: 6px 2px; text-align: center;
     border-top: 1px solid rgba(255,255,255,0.04);
@@ -129,6 +129,15 @@
   .pos-num { font-size: 0.68rem; min-width: 13px; color: var(--muted); }
   .qualified td:first-child { border-left: 3px solid var(--gold); }
   .pts-val { font-weight: 800; color: var(--text); }
+  .form-legend {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 14px; margin-bottom: 14px;
+    font-size: 0.75rem; color: var(--muted);
+  }
+  .form-legend-label { font-weight: 700; color: var(--text); }
+  .fl-item { display: flex; align-items: center; gap: 5px; }
+  .fl-note { margin-left: auto; font-size: 0.68rem; color: var(--muted); }
   .form-pills { display: flex; gap: 2px; justify-content: center; }
   .fp {
     width: 6px; height: 6px; border-radius: 50%;
@@ -277,6 +286,13 @@
 
   <!-- GROUPS -->
   <div class="view active" id="view-groups">
+    <div class="form-legend">
+      <span class="form-legend-label">試合結果：</span>
+      <span class="fl-item"><span class="fp fp-w"></span> 勝ち</span>
+      <span class="fl-item"><span class="fp fp-d"></span> 引き分け</span>
+      <span class="fl-item"><span class="fp fp-l"></span> 負け</span>
+      <span class="fl-note">（直近5試合・左が古い順）</span>
+    </div>
     <div class="groups-grid" id="groupsGrid">
       <div class="group-card"><div class="group-header"><div class="skel" style="width:80px;height:16px"></div></div><div style="padding:12px"><div class="skel" style="margin:6px 0"></div><div class="skel" style="margin:6px 0"></div><div class="skel"></div></div></div>
       <div class="group-card"><div class="group-header"><div class="skel" style="width:80px;height:16px"></div></div><div style="padding:12px"><div class="skel" style="margin:6px 0"></div><div class="skel" style="margin:6px 0"></div><div class="skel"></div></div></div>
@@ -496,7 +512,7 @@
       return '<div class="group-card">'
         + '<div class="group-header"><span class="group-label">' + label + '</span></div>'
         + '<table class="standings-table">'
-        + '<thead><tr><th>チーム</th><th>試</th><th>勝</th><th>分</th><th>負</th><th>得</th><th>失</th><th>差</th><th>点</th><th>形</th></tr></thead>'
+        + '<thead><tr><th>チーム</th><th>試</th><th>勝</th><th>分</th><th>負</th><th>得</th><th>失</th><th>差</th><th>点</th><th>試合結果</th></tr></thead>'
         + '<tbody>' + rows + '</tbody>'
         + '</table></div>';
     }).join('');
