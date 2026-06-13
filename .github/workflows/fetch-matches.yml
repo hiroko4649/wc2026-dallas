@@ -24,10 +24,18 @@ jobs:
             -o matches.json
           echo "Fetched $(python3 -c "import json; d=json.load(open('matches.json')); print(len(d.get('matches',[])))")" matches
 
+      - name: Fetch standings from football-data.org
+        run: |
+          curl -s \
+            -H "X-Auth-Token: fe4edac284a34af68c7effc03aafe07b" \
+            "https://api.football-data.org/v4/competitions/WC/standings?season=2026" \
+            -o standings.json
+          echo "Fetched standings"
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add matches.json
+          git add matches.json standings.json
           git diff --staged --quiet || git commit -m "Update match results $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push
