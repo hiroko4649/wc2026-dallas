@@ -106,16 +106,20 @@
   .group-label {
     font-size: 0.95rem; font-weight: 900; color: var(--gold); letter-spacing: 0.05em;
   }
-  .standings-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  .standings-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; table-layout: fixed; }
   .standings-table th {
-    padding: 5px 6px; text-align: center;
+    padding: 5px 2px; text-align: center;
     font-size: 0.68rem; font-weight: 700; color: var(--muted);
     letter-spacing: 0.05em; background: rgba(255,255,255,0.02);
+    overflow: hidden;
   }
-  .standings-table th:first-child { text-align: left; padding-left: 12px; }
+  .standings-table th:first-child { text-align: left; padding-left: 12px; width: 42%; }
+  .standings-table th:nth-child(n+2) { width: 6.5%; }
+  .standings-table th:last-child { width: 8%; }
   .standings-table td {
-    padding: 6px 6px; text-align: center;
+    padding: 6px 2px; text-align: center;
     border-top: 1px solid rgba(255,255,255,0.04);
+    overflow: hidden; white-space: nowrap;
   }
   .standings-table td:first-child { text-align: left; padding-left: 8px; }
   .standings-table tr:hover td { background: rgba(255,255,255,0.03); }
