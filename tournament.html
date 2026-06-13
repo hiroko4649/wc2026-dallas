@@ -339,6 +339,7 @@
       if (results.standings) renderGroups(results.standings.standings || []);
       if (results.matches) {
         allMatches = results.matches.matches || [];
+        buildGroupsFromMatches(allMatches);
         renderBracket(allMatches);
         renderMatches(allMatches, currentFilter);
       }
@@ -378,41 +379,118 @@
     });
   });
 
-  // ── RENDER GROUPS ──
+  // ── RENDER GROUPS（matches.jsonからグループ別順位を自前計算）──
   function renderGroups(standings) {
+    // standings APIはグループ情報なしのため、allMatchesから計算する
+    buildGroupsFromMatches(allMatches);
+  }
+
+  function buildGroupsFromMatches(matches) {
     var grid = document.getElementById('groupsGrid');
-    var groups = standings.filter(function(s) { return s.type === 'TOTAL' || !s.type; });
-    if (!groups.length) {
-      grid.innerHTML = '<div class="err-box"><strong>グループデータなし</strong>現在スタンディングが取得できませんでした。</div>';
+    if (!matches || !matches.length) {
+      grid.innerHTML = '<div class="err-box"><strong>データなし</strong>試合データが取得できませんでした。</div>';
       return;
     }
-    grid.innerHTML = groups.map(function(g) {
-      var name = g.group ? g.group.replace('GROUP_', 'グループ ') : 'グループ';
-      var rows = (g.table || []).map(function(row) {
-        var q = row.position <= 2;
-        var form = (row.form || '').split('').slice(-5).map(function(f) {
+
+    // グループステージの試合のみ抽出
+    var groupMatches = matches.filter(function(m) { return m.stage === 'GROUP_STAGE'; });
+
+    // グループ別にチーム成績を集計
+    var groups = {}; // { 'GROUP_A': { 'teamId': {...} } }
+
+    groupMatches.forEach(function(m) {
+      var grp = m.group; // 'GROUP_A' etc
+      if (!grp) return;
+      if (!groups[grp]) groups[grp] = {};
+
+      var hId = m.homeTeam && m.homeTeam.id;
+      var aId = m.awayTeam && m.awayTeam.id;
+      if (!hId || !aId) return;
+
+      // チームの初期化
+      if (!groups[grp][hId]) groups[grp][hId] = {
+        team: m.homeTeam, played:0, won:0, draw:0, lost:0,
+        gf:0, ga:0, pts:0, form:[]
+      };
+      if (!groups[grp][aId]) groups[grp][aId] = {
+        team: m.awayTeam, played:0, won:0, draw:0, lost:0,
+        gf:0, ga:0, pts:0, form:[]
+      };
+
+      // 終了試合のみ集計
+      if (m.status !== 'FINISHED') return;
+      var hs = m.score && m.score.fullTime ? (m.score.fullTime.home != null ? m.score.fullTime.home : m.score.fullTime.homeTeam) : null;
+      var as = m.score && m.score.fullTime ? (m.score.fullTime.away != null ? m.score.fullTime.away : m.score.fullTime.awayTeam) : null;
+      if (hs === null || as === null) return;
+
+      var h = groups[grp][hId];
+      var a = groups[grp][aId];
+      h.played++; a.played++;
+      h.gf += hs; h.ga += as;
+      a.gf += as; a.ga += hs;
+
+      if (hs > as) {
+        h.won++; h.pts += 3; h.form.push('W');
+        a.lost++;                a.form.push('L');
+      } else if (hs < as) {
+        a.won++; a.pts += 3; a.form.push('W');
+        h.lost++;                h.form.push('L');
+      } else {
+        h.draw++; h.pts += 1; h.form.push('D');
+        a.draw++; a.pts += 1; a.form.push('D');
+      }
+    });
+
+    // グループ名をソート（A→L）
+    var groupOrder = ['GROUP_A','GROUP_B','GROUP_C','GROUP_D','GROUP_E','GROUP_F',
+                      'GROUP_G','GROUP_H','GROUP_I','GROUP_J','GROUP_K','GROUP_L'];
+    var sortedGroups = groupOrder.filter(function(g) { return groups[g]; });
+
+    if (!sortedGroups.length) {
+      grid.innerHTML = '<div class="err-box"><strong>グループデータなし</strong>まだグループステージの試合が始まっていません。</div>';
+      return;
+    }
+
+    grid.innerHTML = sortedGroups.map(function(grpKey) {
+      var label = 'グループ ' + grpKey.replace('GROUP_','');
+      var teams = Object.values(groups[grpKey]);
+
+      // 順位ソート：勝点→得失点差→得点
+      teams.sort(function(a,b) {
+        if (b.pts !== a.pts) return b.pts - a.pts;
+        var agd = b.gf-b.ga, bgd = a.gf-a.ga;
+        if (agd !== bgd) return agd - bgd;
+        return b.gf - a.gf;
+      });
+
+      var rows = teams.map(function(t, i) {
+        var pos = i + 1;
+        var q = pos <= 2;
+        var gd = (t.gf - t.ga);
+        var gdStr = gd > 0 ? ('+' + gd) : gd;
+        var form = t.form.slice(-5).map(function(f) {
           return '<span class="fp fp-' + f.toLowerCase() + '"></span>';
         }).join('');
-        var gd = row.goalDifference > 0 ? ('+' + row.goalDifference) : row.goalDifference;
         return '<tr class="' + (q ? 'qualified' : '') + '">'
           + '<td><div class="team-cell">'
-          + '<span class="pos-num">' + row.position + '</span>'
-          + (row.team.crest ? '<img class="team-crest" src="' + row.team.crest + '" alt="" onerror="this.style.display=\'none\'">' : '')
-          + '<span class="team-short">' + (row.team.shortName || row.team.tla || row.team.name) + '</span>'
+          + '<span class="pos-num">' + pos + '</span>'
+          + (t.team.crest ? '<img class="team-crest" src="' + t.team.crest + '" alt="" onerror="this.style.display=\'none\'">' : '')
+          + '<span class="team-short">' + (t.team.shortName || t.team.tla || t.team.name) + '</span>'
           + '</div></td>'
-          + '<td>' + row.playedGames + '</td>'
-          + '<td>' + row.won + '</td>'
-          + '<td>' + row.draw + '</td>'
-          + '<td>' + row.lost + '</td>'
-          + '<td>' + row.goalsFor + '</td>'
-          + '<td>' + row.goalsAgainst + '</td>'
-          + '<td>' + gd + '</td>'
-          + '<td class="pts-val">' + row.points + '</td>'
+          + '<td>' + t.played + '</td>'
+          + '<td>' + t.won + '</td>'
+          + '<td>' + t.draw + '</td>'
+          + '<td>' + t.lost + '</td>'
+          + '<td>' + t.gf + '</td>'
+          + '<td>' + t.ga + '</td>'
+          + '<td>' + gdStr + '</td>'
+          + '<td class="pts-val">' + t.pts + '</td>'
           + '<td><div class="form-pills">' + form + '</div></td>'
           + '</tr>';
       }).join('');
+
       return '<div class="group-card">'
-        + '<div class="group-header"><span class="group-label">' + name + '</span></div>'
+        + '<div class="group-header"><span class="group-label">' + label + '</span></div>'
         + '<table class="standings-table">'
         + '<thead><tr><th>チーム</th><th>試</th><th>勝</th><th>分</th><th>負</th><th>得</th><th>失</th><th>差</th><th>点</th><th>形</th></tr></thead>'
         + '<tbody>' + rows + '</tbody>'
