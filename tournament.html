@@ -315,49 +315,25 @@
   var allMatches = [];
   var currentFilter = 'ALL';
 
-  // ── PROXY FETCH (CORS回避) ──
-  function fetchWithProxy(apiPath, cb) {
-    var apiUrl = 'https://api.football-data.org/v4' + apiPath;
-    var proxies = [
-      'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl),
-      'https://corsproxy.io/?' + encodeURIComponent(apiUrl),
-      'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(apiUrl)
-    ];
-    function tryNext(i) {
-      if (i >= proxies.length) { cb(new Error('プロキシ全滅'), null); return; }
-      fetch(proxies[i])
-        .then(function(res) {
-          if (!res.ok) throw new Error('HTTP ' + res.status);
-          return res.json();
-        })
-        .then(function(data) { cb(null, data); })
-        .catch(function(err) {
-          console.warn('proxy[' + i + '] failed:', err.message);
-          tryNext(i + 1);
-        });
-    }
-    tryNext(0);
-  }
-
   // ── STATUS ──
   function setStatus(state, msg) {
     document.getElementById('sDot').className = 'status-dot ' + state;
     document.getElementById('sText').textContent = msg;
   }
 
-  // ── LOAD ALL ──
+  // ── LOAD ALL（GitHub ActionsのJSONを読む）──
   function loadAll() {
     setStatus('wait', 'データ取得中…');
-    var done = 0;
     var results = {};
+    var done = 0;
     var failed = 0;
 
     function check() {
       done++;
       if (done < 2) return;
       if (failed === 2) {
-        setStatus('err', '⚠️ データ取得失敗 — しばらく後に再試行してください');
-        showError('全プロキシが失敗しました。football-data.orgの負荷が高い可能性があります。');
+        setStatus('err', '⚠️ データ取得失敗');
+        showError('standings.json / matches.json が見つかりません。GitHub Actionsが実行済みか確認してください。');
         return;
       }
       if (results.standings) renderGroups(results.standings.standings || []);
@@ -370,14 +346,15 @@
       setStatus('ok', '✅ 更新済: ' + now + ' (Dallas時間)');
     }
 
-    fetchWithProxy('/competitions/WC/standings', function(err, data) {
-      if (err) { failed++; } else { results.standings = data; }
-      check();
-    });
-    fetchWithProxy('/competitions/WC/matches?limit=200', function(err, data) {
-      if (err) { failed++; } else { results.matches = data; }
-      check();
-    });
+    fetch('standings.json?_=' + Date.now())
+      .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function(d) { results.standings = d; check(); })
+      .catch(function(e) { console.warn('standings.json:', e); failed++; check(); });
+
+    fetch('matches.json?_=' + Date.now())
+      .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function(d) { results.matches = d; check(); })
+      .catch(function(e) { console.warn('matches.json:', e); failed++; check(); });
   }
   window.loadAll = loadAll;
 
