@@ -126,6 +126,11 @@
   .team-cell { display: flex; align-items: center; gap: 6px; }
   .team-crest { width: 19px; height: 19px; object-fit: contain; }
   .team-short { font-weight: 600; }
+  .fifa-rank {
+    font-size: 0.58rem; font-weight: 700;
+    color: var(--muted); margin-left: 3px;
+    white-space: nowrap;
+  }
   .pos-num { font-size: 0.68rem; min-width: 13px; color: var(--muted); }
   .qualified td:first-child { border-left: 3px solid var(--gold); }
   .pts-val { font-weight: 800; color: var(--text); }
@@ -327,6 +332,7 @@
 <footer>
   データ提供: <a href="https://www.football-data.org" target="_blank">football-data.org</a>
   &nbsp;|&nbsp; <a href="index.html">← 全試合スケジュールに戻る</a>
+  &nbsp;|&nbsp; <span style="color:var(--muted);font-size:0.7rem">FIFAランキング: 2026年6月11日公式更新</span>
 </footer>
 
 <script>
@@ -334,6 +340,29 @@
   var API_TOKEN = 'fe4edac284a34af68c7effc03aafe07b';
   var allMatches = [];
   var currentFilter = 'ALL';
+
+  // ── FIFA ランキング（2026年6月11日 公式更新）──
+  var FIFA_RANKINGS = {
+    'Argentina': 1, 'Spain': 2, 'France': 3, 'England': 4, 'Portugal': 5,
+    'Brazil': 6, 'Netherlands': 7, 'Morocco': 8, 'Belgium': 9, 'Germany': 10,
+    'Croatia': 11, 'Colombia': 13, 'Senegal': 14, 'Mexico': 15, 'United States': 16,
+    'Uruguay': 17, 'Japan': 18, 'Switzerland': 19, 'Iran': 21, 'Austria': 23,
+    'Ecuador': 24, 'South Korea': 25, 'Australia': 26, 'Egypt': 29, 'Canada': 30,
+    'Ivory Coast': 33, 'Qatar': 35, 'Algeria': 36, 'Sweden': 39, 'Tunisia': 40,
+    'Czechia': 41, 'Turkey': 42, 'Norway': 44, 'Scotland': 47, 'DR Congo': 51,
+    'Bosnia-Herzegovina': 52, 'Panama': 53, 'Saudi Arabia': 57, 'South Africa': 60,
+    'Iraq': 61, 'Uzbekistan': 62, 'Paraguay': 64, 'Ghana': 65, 'Jordan': 68,
+    'Cape Verde Islands': 70, 'Cape Verde': 70, 'Curaçao': 81, 'Haiti': 83, 'New Zealand': 95,
+  };
+  function getRank(teamName) {
+    if (!teamName) return null;
+    if (FIFA_RANKINGS[teamName]) return FIFA_RANKINGS[teamName];
+    // 部分マッチで探す
+    for (var k in FIFA_RANKINGS) {
+      if (teamName.indexOf(k) !== -1 || k.indexOf(teamName) !== -1) return FIFA_RANKINGS[k];
+    }
+    return null;
+  }
 
   // ── STATUS ──
   function setStatus(state, msg) {
@@ -491,11 +520,14 @@
         var form = t.form.slice(-5).map(function(f) {
           return '<span class="fp fp-' + f.toLowerCase() + '"></span>';
         }).join('');
+        var rank = getRank(t.team.name);
+        var rankHtml = rank ? '<span class="fifa-rank">FIFA ' + rank + '</span>' : '';
         return '<tr class="' + (q ? 'qualified' : '') + '">'
           + '<td><div class="team-cell">'
           + '<span class="pos-num">' + pos + '</span>'
           + (t.team.crest ? '<img class="team-crest" src="' + t.team.crest + '" alt="" onerror="this.style.display=\'none\'">' : '')
           + '<span class="team-short">' + (t.team.shortName || t.team.tla || t.team.name) + '</span>'
+          + rankHtml
           + '</div></td>'
           + '<td>' + t.played + '</td>'
           + '<td>' + t.won + '</td>'

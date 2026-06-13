@@ -203,6 +203,7 @@
   }
   .vs { color: var(--muted); font-weight: 400; font-size: 0.75rem; margin: 0 3px; }
   .card-venue { font-size: 0.68rem; color: var(--muted); }
+  .rank { font-size: 0.6rem; color: var(--muted); font-weight: 600; vertical-align: middle; }
   .card-venue::before { content: '📍'; margin-right: 3px; font-size: .65rem; }
 
   /* simultaneous note */
@@ -335,6 +336,7 @@
   <div class="flag-row">🇺🇸 🇲🇽 🇨🇦</div>
   <h1>⚽ FIFA ワールドカップ 2026 全試合スケジュール</h1>
   <p>ダラス時間（CDT / UTC−5） ｜ 全104試合 ｜ 2026年6月11日〜7月19日</p>
+  <p style="font-size:0.65rem;color:var(--muted);margin-top:3px">チーム名横の数字はFIFAランキング（2026年6月11日公式更新）</p>
 </header>
 
 <div class="controls">
@@ -383,13 +385,13 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#1</span><span class="card-grp">A組</span></div><div class="card-teams">🇲🇽 メキシコ <span class="vs">vs</span> 🇿🇦 南アフリカ</div><div class="card-venue">メキシコシティ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#1</span><span class="card-grp">A組</span></div><div class="card-teams">🇲🇽 メキシコ<span class="rank"> 15</span> <span class="vs">vs</span> 🇿🇦 南アフリカ<span class="rank"> 60</span></div><div class="card-venue">メキシコシティ</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#2</span><span class="card-grp">A組</span></div><div class="card-teams">🇰🇷 韓国 <span class="vs">vs</span> 🇨🇿 チェコ</div><div class="card-venue">グアダラハラ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#2</span><span class="card-grp">A組</span></div><div class="card-teams">🇰🇷 韓国<span class="rank"> 25</span> <span class="vs">vs</span> 🇨🇿 チェコ<span class="rank"> 41</span></div><div class="card-venue">グアダラハラ</div></div>
     </div>
   </div>
 
@@ -400,13 +402,13 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#3</span><span class="card-grp">B組</span></div><div class="card-teams">🇨🇦 カナダ <span class="vs">vs</span> 🇧🇦 ボスニア・ヘルツェゴビナ</div><div class="card-venue">トロント</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#3</span><span class="card-grp">B組</span></div><div class="card-teams">🇨🇦 カナダ<span class="rank"> 30</span> <span class="vs">vs</span> 🇧🇦 ボスニア・ヘルツェゴビナ<span class="rank"> 52</span></div><div class="card-venue">トロント</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#4</span><span class="card-grp">D組</span></div><div class="card-teams">🇺🇸 USA <span class="vs">vs</span> 🇵🇾 パラグアイ</div><div class="card-venue">ロサンゼルス</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#4</span><span class="card-grp">D組</span></div><div class="card-teams">🇺🇸 USA<span class="rank"> 16</span> <span class="vs">vs</span> 🇵🇾 パラグアイ<span class="rank"> 64</span></div><div class="card-venue">ロサンゼルス</div></div>
     </div>
   </div>
 
@@ -417,26 +419,26 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#5</span><span class="card-grp">B組</span></div><div class="card-teams">🇶🇦 カタール <span class="vs">vs</span> 🇨🇭 スイス</div><div class="card-venue">サンフランシスコ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#5</span><span class="card-grp">B組</span></div><div class="card-teams">🇶🇦 カタール<span class="rank"> 35</span> <span class="vs">vs</span> 🇨🇭 スイス<span class="rank"> 19</span></div><div class="card-venue">サンフランシスコ</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#6</span><span class="card-grp">C組</span></div><div class="card-teams">🇧🇷 ブラジル <span class="vs">vs</span> 🇲🇦 モロッコ</div><div class="card-venue">ニューヨーク</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#6</span><span class="card-grp">C組</span></div><div class="card-teams">🇧🇷 ブラジル<span class="rank"> 6</span> <span class="vs">vs</span> 🇲🇦 モロッコ<span class="rank"> 8</span></div><div class="card-venue">ニューヨーク</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#7</span><span class="card-grp">C組</span></div><div class="card-teams">🇭🇹 ハイチ <span class="vs">vs</span> 🏴󠁧󠁢󠁳󠁣󠁴󠁿 スコットランド</div><div class="card-venue">ボストン</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#7</span><span class="card-grp">C組</span></div><div class="card-teams">🇭🇹 ハイチ<span class="rank"> 83</span> <span class="vs">vs</span> 🏴󠁧󠁢󠁳󠁣󠁴󠁿 スコットランド<span class="rank"> 47</span></div><div class="card-venue">ボストン</div></div>
     </div>
   </div>
 
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">深夜<br>11:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#8</span><span class="card-grp">D組</span></div><div class="card-teams">🇦🇺 オーストラリア <span class="vs">vs</span> 🇹🇷 トルコ</div><div class="card-venue">バンクーバー</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#8</span><span class="card-grp">D組</span></div><div class="card-teams">🇦🇺 オーストラリア<span class="rank"> 26</span> <span class="vs">vs</span> 🇹🇷 トルコ<span class="rank"> 42</span></div><div class="card-venue">バンクーバー</div></div>
     </div>
   </div>
 
@@ -447,25 +449,25 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#9</span><span class="card-grp">E組</span></div><div class="card-teams">🇩🇪 ドイツ <span class="vs">vs</span> 🇨🇼 キュラソー</div><div class="card-venue">ヒューストン</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#9</span><span class="card-grp">E組</span></div><div class="card-teams">🇩🇪 ドイツ<span class="rank"> 10</span> <span class="vs">vs</span> 🇨🇼 キュラソー<span class="rank"> 81</span></div><div class="card-venue">ヒューストン</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#10</span><span class="card-grp">F組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">🇳🇱 オランダ <span class="vs">vs</span> 🇯🇵 日本</div><div class="card-venue">ダラス</div></div>
+      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#10</span><span class="card-grp">F組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">🇳🇱 オランダ<span class="rank"> 7</span> <span class="vs">vs</span> 🇯🇵 日本<span class="rank"> 18</span></div><div class="card-venue">ダラス</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>6:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#11</span><span class="card-grp">E組</span></div><div class="card-teams">🇨🇮 コートジボワール <span class="vs">vs</span> 🇪🇨 エクアドル</div><div class="card-venue">フィラデルフィア</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#11</span><span class="card-grp">E組</span></div><div class="card-teams">🇨🇮 コートジボワール<span class="rank"> 33</span> <span class="vs">vs</span> 🇪🇨 エクアドル<span class="rank"> 24</span></div><div class="card-venue">フィラデルフィア</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#12</span><span class="card-grp">F組</span></div><div class="card-teams">🇸🇪 スウェーデン <span class="vs">vs</span> 🇹🇳 チュニジア</div><div class="card-venue">モンテレー</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#12</span><span class="card-grp">F組</span></div><div class="card-teams">🇸🇪 スウェーデン<span class="rank"> 39</span> <span class="vs">vs</span> 🇹🇳 チュニジア<span class="rank"> 40</span></div><div class="card-venue">モンテレー</div></div>
     </div>
   </div>
 
@@ -476,25 +478,25 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午前<br>11:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#13</span><span class="card-grp">H組</span></div><div class="card-teams">🇪🇸 スペイン <span class="vs">vs</span> 🇨🇻 カーボベルデ</div><div class="card-venue">アトランタ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#13</span><span class="card-grp">H組</span></div><div class="card-teams">🇪🇸 スペイン<span class="rank"> 2</span> <span class="vs">vs</span> 🇨🇻 カーボベルデ<span class="rank"> 70</span></div><div class="card-venue">アトランタ</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#14</span><span class="card-grp">G組</span></div><div class="card-teams">🇧🇪 ベルギー <span class="vs">vs</span> 🇪🇬 エジプト</div><div class="card-venue">シアトル</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#14</span><span class="card-grp">G組</span></div><div class="card-teams">🇧🇪 ベルギー<span class="rank"> 9</span> <span class="vs">vs</span> 🇪🇬 エジプト<span class="rank"> 29</span></div><div class="card-venue">シアトル</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#15</span><span class="card-grp">H組</span></div><div class="card-teams">🇸🇦 サウジアラビア <span class="vs">vs</span> 🇺🇾 ウルグアイ</div><div class="card-venue">マイアミ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#15</span><span class="card-grp">H組</span></div><div class="card-teams">🇸🇦 サウジアラビア<span class="rank"> 57</span> <span class="vs">vs</span> 🇺🇾 ウルグアイ<span class="rank"> 17</span></div><div class="card-venue">マイアミ</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#16</span><span class="card-grp">G組</span></div><div class="card-teams">🇮🇷 イラン <span class="vs">vs</span> 🇳🇿 ニュージーランド</div><div class="card-venue">ロサンゼルス</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#16</span><span class="card-grp">G組</span></div><div class="card-teams">🇮🇷 イラン<span class="rank"> 21</span> <span class="vs">vs</span> 🇳🇿 ニュージーランド<span class="rank"> 95</span></div><div class="card-venue">ロサンゼルス</div></div>
     </div>
   </div>
 
@@ -505,26 +507,26 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#17</span><span class="card-grp">I組</span></div><div class="card-teams">🇫🇷 フランス <span class="vs">vs</span> 🇸🇳 セネガル</div><div class="card-venue">ニューヨーク</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#17</span><span class="card-grp">I組</span></div><div class="card-teams">🇫🇷 フランス<span class="rank"> 3</span> <span class="vs">vs</span> 🇸🇳 セネガル<span class="rank"> 14</span></div><div class="card-venue">ニューヨーク</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#18</span><span class="card-grp">I組</span></div><div class="card-teams">🇮🇶 イラク <span class="vs">vs</span> 🇳🇴 ノルウェー</div><div class="card-venue">ボストン</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#18</span><span class="card-grp">I組</span></div><div class="card-teams">🇮🇶 イラク<span class="rank"> 61</span> <span class="vs">vs</span> 🇳🇴 ノルウェー<span class="rank"> 44</span></div><div class="card-venue">ボストン</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#19</span><span class="card-grp">J組</span></div><div class="card-teams">🇦🇷 アルゼンチン <span class="vs">vs</span> 🇩🇿 アルジェリア</div><div class="card-venue">カンザスシティ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#19</span><span class="card-grp">J組</span></div><div class="card-teams">🇦🇷 アルゼンチン<span class="rank"> 1</span> <span class="vs">vs</span> 🇩🇿 アルジェリア<span class="rank"> 36</span></div><div class="card-venue">カンザスシティ</div></div>
     </div>
   </div>
 
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">深夜<br>11:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#20</span><span class="card-grp">J組</span></div><div class="card-teams">🇦🇹 オーストリア <span class="vs">vs</span> 🇯🇴 ヨルダン</div><div class="card-venue">サンフランシスコ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#20</span><span class="card-grp">J組</span></div><div class="card-teams">🇦🇹 オーストリア<span class="rank"> 23</span> <span class="vs">vs</span> 🇯🇴 ヨルダン<span class="rank"> 68</span></div><div class="card-venue">サンフランシスコ</div></div>
     </div>
   </div>
 
@@ -535,25 +537,25 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#21</span><span class="card-grp">K組</span></div><div class="card-teams">🇵🇹 ポルトガル <span class="vs">vs</span> 🇨🇩 コンゴ民主共和国</div><div class="card-venue">ヒューストン</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#21</span><span class="card-grp">K組</span></div><div class="card-teams">🇵🇹 ポルトガル<span class="rank"> 5</span> <span class="vs">vs</span> 🇨🇩 コンゴ民主共和国<span class="rank"> 51</span></div><div class="card-venue">ヒューストン</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#22</span><span class="card-grp">L組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">🏴󠁧󠁢󠁥󠁮󠁧󠁿 イングランド <span class="vs">vs</span> 🇭🇷 クロアチア</div><div class="card-venue">ダラス</div></div>
+      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#22</span><span class="card-grp">L組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">🏴󠁧󠁢󠁥󠁮󠁧󠁿 イングランド<span class="rank"> 4</span> <span class="vs">vs</span> 🇭🇷 クロアチア<span class="rank"> 11</span></div><div class="card-venue">ダラス</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>6:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#23</span><span class="card-grp">L組</span></div><div class="card-teams">🇬🇭 ガーナ <span class="vs">vs</span> 🇵🇦 パナマ</div><div class="card-venue">トロント</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#23</span><span class="card-grp">L組</span></div><div class="card-teams">🇬🇭 ガーナ<span class="rank"> 65</span> <span class="vs">vs</span> 🇵🇦 パナマ<span class="rank"> 53</span></div><div class="card-venue">トロント</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#24</span><span class="card-grp">K組</span></div><div class="card-teams">🇺🇿 ウズベキスタン <span class="vs">vs</span> 🇨🇴 コロンビア</div><div class="card-venue">メキシコシティ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#24</span><span class="card-grp">K組</span></div><div class="card-teams">🇺🇿 ウズベキスタン<span class="rank"> 62</span> <span class="vs">vs</span> 🇨🇴 コロンビア<span class="rank"> 13</span></div><div class="card-venue">メキシコシティ</div></div>
     </div>
   </div>
 
@@ -564,25 +566,25 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午前<br>11:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#25</span><span class="card-grp">A組</span></div><div class="card-teams">🇨🇿 チェコ <span class="vs">vs</span> 🇿🇦 南アフリカ</div><div class="card-venue">アトランタ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#25</span><span class="card-grp">A組</span></div><div class="card-teams">🇨🇿 チェコ<span class="rank"> 41</span> <span class="vs">vs</span> 🇿🇦 南アフリカ<span class="rank"> 60</span></div><div class="card-venue">アトランタ</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#26</span><span class="card-grp">B組</span></div><div class="card-teams">🇨🇭 スイス <span class="vs">vs</span> 🇧🇦 ボスニア・ヘルツェゴビナ</div><div class="card-venue">ロサンゼルス</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#26</span><span class="card-grp">B組</span></div><div class="card-teams">🇨🇭 スイス<span class="rank"> 19</span> <span class="vs">vs</span> 🇧🇦 ボスニア・ヘルツェゴビナ<span class="rank"> 52</span></div><div class="card-venue">ロサンゼルス</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#27</span><span class="card-grp">B組</span></div><div class="card-teams">🇨🇦 カナダ <span class="vs">vs</span> 🇶🇦 カタール</div><div class="card-venue">バンクーバー</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#27</span><span class="card-grp">B組</span></div><div class="card-teams">🇨🇦 カナダ<span class="rank"> 30</span> <span class="vs">vs</span> 🇶🇦 カタール<span class="rank"> 35</span></div><div class="card-venue">バンクーバー</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#28</span><span class="card-grp">A組</span></div><div class="card-teams">🇲🇽 メキシコ <span class="vs">vs</span> 🇰🇷 韓国</div><div class="card-venue">グアダラハラ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#28</span><span class="card-grp">A組</span></div><div class="card-teams">🇲🇽 メキシコ<span class="rank"> 15</span> <span class="vs">vs</span> 🇰🇷 韓国<span class="rank"> 25</span></div><div class="card-venue">グアダラハラ</div></div>
     </div>
   </div>
 
@@ -593,25 +595,25 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#29</span><span class="card-grp">D組</span></div><div class="card-teams">🇺🇸 USA <span class="vs">vs</span> 🇦🇺 オーストラリア</div><div class="card-venue">シアトル</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#29</span><span class="card-grp">D組</span></div><div class="card-teams">🇺🇸 USA<span class="rank"> 16</span> <span class="vs">vs</span> 🇦🇺 オーストラリア<span class="rank"> 26</span></div><div class="card-venue">シアトル</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#30</span><span class="card-grp">C組</span></div><div class="card-teams">🏴󠁧󠁢󠁳󠁣󠁴󠁿 スコットランド <span class="vs">vs</span> 🇲🇦 モロッコ</div><div class="card-venue">ボストン</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#30</span><span class="card-grp">C組</span></div><div class="card-teams">🏴󠁧󠁢󠁳󠁣󠁴󠁿 スコットランド<span class="rank"> 47</span> <span class="vs">vs</span> 🇲🇦 モロッコ<span class="rank"> 8</span></div><div class="card-venue">ボストン</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>7:30</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#31</span><span class="card-grp">C組</span></div><div class="card-teams">🇧🇷 ブラジル <span class="vs">vs</span> 🇭🇹 ハイチ</div><div class="card-venue">フィラデルフィア</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#31</span><span class="card-grp">C組</span></div><div class="card-teams">🇧🇷 ブラジル<span class="rank"> 6</span> <span class="vs">vs</span> 🇭🇹 ハイチ<span class="rank"> 83</span></div><div class="card-venue">フィラデルフィア</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>10:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#32</span><span class="card-grp">D組</span></div><div class="card-teams">🇹🇷 トルコ <span class="vs">vs</span> 🇵🇾 パラグアイ</div><div class="card-venue">サンフランシスコ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#32</span><span class="card-grp">D組</span></div><div class="card-teams">🇹🇷 トルコ<span class="rank"> 42</span> <span class="vs">vs</span> 🇵🇾 パラグアイ<span class="rank"> 64</span></div><div class="card-venue">サンフランシスコ</div></div>
     </div>
   </div>
 
@@ -622,26 +624,26 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#33</span><span class="card-grp">F組</span></div><div class="card-teams">🇳🇱 オランダ <span class="vs">vs</span> 🇸🇪 スウェーデン</div><div class="card-venue">ヒューストン</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#33</span><span class="card-grp">F組</span></div><div class="card-teams">🇳🇱 オランダ<span class="rank"> 7</span> <span class="vs">vs</span> 🇸🇪 スウェーデン<span class="rank"> 39</span></div><div class="card-venue">ヒューストン</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#34</span><span class="card-grp">E組</span></div><div class="card-teams">🇩🇪 ドイツ <span class="vs">vs</span> 🇨🇮 コートジボワール</div><div class="card-venue">トロント</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#34</span><span class="card-grp">E組</span></div><div class="card-teams">🇩🇪 ドイツ<span class="rank"> 10</span> <span class="vs">vs</span> 🇨🇮 コートジボワール<span class="rank"> 33</span></div><div class="card-venue">トロント</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>7:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#35</span><span class="card-grp">E組</span></div><div class="card-teams">🇪🇨 エクアドル <span class="vs">vs</span> 🇨🇼 キュラソー</div><div class="card-venue">カンザスシティ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#35</span><span class="card-grp">E組</span></div><div class="card-teams">🇪🇨 エクアドル<span class="rank"> 24</span> <span class="vs">vs</span> 🇨🇼 キュラソー<span class="rank"> 81</span></div><div class="card-venue">カンザスシティ</div></div>
     </div>
   </div>
 
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">深夜<br>11:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#36</span><span class="card-grp">F組</span></div><div class="card-teams">🇹🇳 チュニジア <span class="vs">vs</span> 🇯🇵 日本 <span style="font-size:.65rem;color:var(--gold)">※W杯史上1000試合目</span></div><div class="card-venue">モンテレー</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#36</span><span class="card-grp">F組</span></div><div class="card-teams">🇹🇳 チュニジア<span class="rank"> 40</span> <span class="vs">vs</span> 🇯🇵 日本<span class="rank"> 18</span> <span style="font-size:.65rem;color:var(--gold)">※W杯史上1000試合目</span></div><div class="card-venue">モンテレー</div></div>
     </div>
   </div>
 
@@ -652,25 +654,25 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午前<br>11:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#37</span><span class="card-grp">H組</span></div><div class="card-teams">🇪🇸 スペイン <span class="vs">vs</span> 🇸🇦 サウジアラビア</div><div class="card-venue">アトランタ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#37</span><span class="card-grp">H組</span></div><div class="card-teams">🇪🇸 スペイン<span class="rank"> 2</span> <span class="vs">vs</span> 🇸🇦 サウジアラビア<span class="rank"> 57</span></div><div class="card-venue">アトランタ</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#38</span><span class="card-grp">G組</span></div><div class="card-teams">🇧🇪 ベルギー <span class="vs">vs</span> 🇮🇷 イラン</div><div class="card-venue">ロサンゼルス</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#38</span><span class="card-grp">G組</span></div><div class="card-teams">🇧🇪 ベルギー<span class="rank"> 9</span> <span class="vs">vs</span> 🇮🇷 イラン<span class="rank"> 21</span></div><div class="card-venue">ロサンゼルス</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#39</span><span class="card-grp">H組</span></div><div class="card-teams">🇺🇾 ウルグアイ <span class="vs">vs</span> 🇨🇻 カーボベルデ</div><div class="card-venue">マイアミ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#39</span><span class="card-grp">H組</span></div><div class="card-teams">🇺🇾 ウルグアイ<span class="rank"> 17</span> <span class="vs">vs</span> 🇨🇻 カーボベルデ<span class="rank"> 70</span></div><div class="card-venue">マイアミ</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#40</span><span class="card-grp">G組</span></div><div class="card-teams">🇳🇿 ニュージーランド <span class="vs">vs</span> 🇪🇬 エジプト</div><div class="card-venue">バンクーバー</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#40</span><span class="card-grp">G組</span></div><div class="card-teams">🇳🇿 ニュージーランド<span class="rank"> 95</span> <span class="vs">vs</span> 🇪🇬 エジプト<span class="rank"> 29</span></div><div class="card-venue">バンクーバー</div></div>
     </div>
   </div>
 
@@ -681,25 +683,25 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#41</span><span class="card-grp">J組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">🇦🇷 アルゼンチン <span class="vs">vs</span> 🇦🇹 オーストリア</div><div class="card-venue">ダラス</div></div>
+      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#41</span><span class="card-grp">J組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="card-teams">🇦🇷 アルゼンチン<span class="rank"> 1</span> <span class="vs">vs</span> 🇦🇹 オーストリア<span class="rank"> 23</span></div><div class="card-venue">ダラス</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>4:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#42</span><span class="card-grp">I組</span></div><div class="card-teams">🇫🇷 フランス <span class="vs">vs</span> 🇮🇶 イラク</div><div class="card-venue">リンカーン・フィナンシャルフィラデルフィア</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#42</span><span class="card-grp">I組</span></div><div class="card-teams">🇫🇷 フランス<span class="rank"> 3</span> <span class="vs">vs</span> 🇮🇶 イラク<span class="rank"> 61</span></div><div class="card-venue">リンカーン・フィナンシャルフィラデルフィア</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>7:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#43</span><span class="card-grp">I組</span></div><div class="card-teams">🇳🇴 ノルウェー <span class="vs">vs</span> 🇸🇳 セネガル</div><div class="card-venue">ニューヨーク</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#43</span><span class="card-grp">I組</span></div><div class="card-teams">🇳🇴 ノルウェー<span class="rank"> 44</span> <span class="vs">vs</span> 🇸🇳 セネガル<span class="rank"> 14</span></div><div class="card-venue">ニューヨーク</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>10:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#44</span><span class="card-grp">J組</span></div><div class="card-teams">🇯🇴 ヨルダン <span class="vs">vs</span> 🇩🇿 アルジェリア</div><div class="card-venue">サンフランシスコ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#44</span><span class="card-grp">J組</span></div><div class="card-teams">🇯🇴 ヨルダン<span class="rank"> 68</span> <span class="vs">vs</span> 🇩🇿 アルジェリア<span class="rank"> 36</span></div><div class="card-venue">サンフランシスコ</div></div>
     </div>
   </div>
 
@@ -710,25 +712,25 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">正午<br>12:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#45</span><span class="card-grp">K組</span></div><div class="card-teams">🇵🇹 ポルトガル <span class="vs">vs</span> 🇺🇿 ウズベキスタン</div><div class="card-venue">ヒューストン</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#45</span><span class="card-grp">K組</span></div><div class="card-teams">🇵🇹 ポルトガル<span class="rank"> 5</span> <span class="vs">vs</span> 🇺🇿 ウズベキスタン<span class="rank"> 62</span></div><div class="card-venue">ヒューストン</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#46</span><span class="card-grp">L組</span></div><div class="card-teams">🏴󠁧󠁢󠁥󠁮󠁧󠁿 イングランド <span class="vs">vs</span> 🇬🇭 ガーナ</div><div class="card-venue">ボストン</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#46</span><span class="card-grp">L組</span></div><div class="card-teams">🏴󠁧󠁢󠁥󠁮󠁧󠁿 イングランド<span class="rank"> 4</span> <span class="vs">vs</span> 🇬🇭 ガーナ<span class="rank"> 65</span></div><div class="card-venue">ボストン</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>6:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#47</span><span class="card-grp">L組</span></div><div class="card-teams">🇵🇦 パナマ <span class="vs">vs</span> 🇭🇷 クロアチア</div><div class="card-venue">トロント</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#47</span><span class="card-grp">L組</span></div><div class="card-teams">🇵🇦 パナマ<span class="rank"> 53</span> <span class="vs">vs</span> 🇭🇷 クロアチア<span class="rank"> 11</span></div><div class="card-venue">トロント</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#48</span><span class="card-grp">K組</span></div><div class="card-teams">🇨🇴 コロンビア <span class="vs">vs</span> 🇨🇩 コンゴ民主共和国</div><div class="card-venue">グアダラハラ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#48</span><span class="card-grp">K組</span></div><div class="card-teams">🇨🇴 コロンビア<span class="rank"> 13</span> <span class="vs">vs</span> 🇨🇩 コンゴ民主共和国<span class="rank"> 51</span></div><div class="card-venue">グアダラハラ</div></div>
     </div>
   </div>
 
@@ -739,22 +741,22 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#49</span><span class="card-grp">B組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇭 スイス <span class="vs">vs</span> 🇨🇦 カナダ</div><div class="card-venue">バンクーバー</div></div>
-      <div class="match-card"><div class="card-top"><span class="card-num">#50</span><span class="card-grp">B組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇧🇦 ボスニア <span class="vs">vs</span> 🇶🇦 カタール</div><div class="card-venue">シアトル</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#49</span><span class="card-grp">B組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇭 スイス<span class="rank"> 19</span> <span class="vs">vs</span> 🇨🇦 カナダ<span class="rank"> 30</span></div><div class="card-venue">バンクーバー</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#50</span><span class="card-grp">B組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇧🇦 ボスニア <span class="vs">vs</span> 🇶🇦 カタール<span class="rank"> 35</span></div><div class="card-venue">シアトル</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>5:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#51</span><span class="card-grp">C組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🏴󠁧󠁢󠁳󠁣󠁴󠁿 スコットランド <span class="vs">vs</span> 🇧🇷 ブラジル</div><div class="card-venue">ハードロックマイアミ</div></div>
-      <div class="match-card"><div class="card-top"><span class="card-num">#52</span><span class="card-grp">C組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇲🇦 モロッコ <span class="vs">vs</span> 🇭🇹 ハイチ</div><div class="card-venue">メルセデス・ベンツアトランタ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#51</span><span class="card-grp">C組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🏴󠁧󠁢󠁳󠁣󠁴󠁿 スコットランド<span class="rank"> 47</span> <span class="vs">vs</span> 🇧🇷 ブラジル<span class="rank"> 6</span></div><div class="card-venue">ハードロックマイアミ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#52</span><span class="card-grp">C組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇲🇦 モロッコ<span class="rank"> 8</span> <span class="vs">vs</span> 🇭🇹 ハイチ<span class="rank"> 83</span></div><div class="card-venue">メルセデス・ベンツアトランタ</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>8:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#53</span><span class="card-grp">A組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇿 チェコ <span class="vs">vs</span> 🇲🇽 メキシコ</div><div class="card-venue">メキシコシティ</div></div>
-      <div class="match-card"><div class="card-top"><span class="card-num">#54</span><span class="card-grp">A組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇿🇦 南アフリカ <span class="vs">vs</span> 🇰🇷 韓国</div><div class="card-venue">モンテレー</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#53</span><span class="card-grp">A組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇿 チェコ<span class="rank"> 41</span> <span class="vs">vs</span> 🇲🇽 メキシコ<span class="rank"> 15</span></div><div class="card-venue">メキシコシティ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#54</span><span class="card-grp">A組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇿🇦 南アフリカ<span class="rank"> 60</span> <span class="vs">vs</span> 🇰🇷 韓国<span class="rank"> 25</span></div><div class="card-venue">モンテレー</div></div>
     </div>
   </div>
 
@@ -765,22 +767,22 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>3:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#55</span><span class="card-grp">E組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇼 キュラソー <span class="vs">vs</span> 🇨🇮 コートジボワール</div><div class="card-venue">リンカーンフィラデルフィア</div></div>
-      <div class="match-card"><div class="card-top"><span class="card-num">#56</span><span class="card-grp">E組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇪🇨 エクアドル <span class="vs">vs</span> 🇩🇪 ドイツ</div><div class="card-venue">ニューヨーク</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#55</span><span class="card-grp">E組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇼 キュラソー<span class="rank"> 81</span> <span class="vs">vs</span> 🇨🇮 コートジボワール<span class="rank"> 33</span></div><div class="card-venue">リンカーンフィラデルフィア</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#56</span><span class="card-grp">E組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇪🇨 エクアドル<span class="rank"> 24</span> <span class="vs">vs</span> 🇩🇪 ドイツ<span class="rank"> 10</span></div><div class="card-venue">ニューヨーク</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>6:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#57</span><span class="card-grp">F組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇯🇵 日本 <span class="vs">vs</span> 🇸🇪 スウェーデン</div><div class="card-venue">ダラス</div></div>
-      <div class="match-card"><div class="card-top"><span class="card-num">#58</span><span class="card-grp">F組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇹🇳 チュニジア <span class="vs">vs</span> 🇳🇱 オランダ</div><div class="card-venue">アローヘッドカンザスシティ</div></div>
+      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#57</span><span class="card-grp">F組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇯🇵 日本<span class="rank"> 18</span> <span class="vs">vs</span> 🇸🇪 スウェーデン<span class="rank"> 39</span></div><div class="card-venue">ダラス</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#58</span><span class="card-grp">F組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇹🇳 チュニジア<span class="rank"> 40</span> <span class="vs">vs</span> 🇳🇱 オランダ<span class="rank"> 7</span></div><div class="card-venue">アローヘッドカンザスシティ</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#59</span><span class="card-grp">D組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇹🇷 トルコ <span class="vs">vs</span> 🇺🇸 USA</div><div class="card-venue">ロサンゼルス</div></div>
-      <div class="match-card"><div class="card-top"><span class="card-num">#60</span><span class="card-grp">D組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇵🇾 パラグアイ <span class="vs">vs</span> 🇦🇺 オーストラリア</div><div class="card-venue">リーバイスサンフランシスコ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#59</span><span class="card-grp">D組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇹🇷 トルコ<span class="rank"> 42</span> <span class="vs">vs</span> 🇺🇸 USA<span class="rank"> 16</span></div><div class="card-venue">ロサンゼルス</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#60</span><span class="card-grp">D組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇵🇾 パラグアイ<span class="rank"> 64</span> <span class="vs">vs</span> 🇦🇺 オーストラリア<span class="rank"> 26</span></div><div class="card-venue">リーバイスサンフランシスコ</div></div>
     </div>
   </div>
 
@@ -791,22 +793,22 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>2:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#61</span><span class="card-grp">I組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇳🇴 ノルウェー <span class="vs">vs</span> 🇫🇷 フランス</div><div class="card-venue">ジレットボストン</div></div>
-      <div class="match-card"><div class="card-top"><span class="card-num">#62</span><span class="card-grp">I組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇸🇳 セネガル <span class="vs">vs</span> 🇮🇶 イラク</div><div class="card-venue">トロント</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#61</span><span class="card-grp">I組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇳🇴 ノルウェー<span class="rank"> 44</span> <span class="vs">vs</span> 🇫🇷 フランス<span class="rank"> 3</span></div><div class="card-venue">ジレットボストン</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#62</span><span class="card-grp">I組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇸🇳 セネガル<span class="rank"> 14</span> <span class="vs">vs</span> 🇮🇶 イラク<span class="rank"> 61</span></div><div class="card-venue">トロント</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>7:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#63</span><span class="card-grp">H組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇻 カーボベルデ <span class="vs">vs</span> 🇸🇦 サウジアラビア</div><div class="card-venue">ヒューストン</div></div>
-      <div class="match-card"><div class="card-top"><span class="card-num">#64</span><span class="card-grp">H組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇺🇾 ウルグアイ <span class="vs">vs</span> 🇪🇸 スペイン</div><div class="card-venue">グアダラハラ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#63</span><span class="card-grp">H組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇻 カーボベルデ<span class="rank"> 70</span> <span class="vs">vs</span> 🇸🇦 サウジアラビア<span class="rank"> 57</span></div><div class="card-venue">ヒューストン</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#64</span><span class="card-grp">H組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇺🇾 ウルグアイ<span class="rank"> 17</span> <span class="vs">vs</span> 🇪🇸 スペイン<span class="rank"> 2</span></div><div class="card-venue">グアダラハラ</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>10:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#65</span><span class="card-grp">G組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇪🇬 エジプト <span class="vs">vs</span> 🇮🇷 イラン</div><div class="card-venue">シアトル</div></div>
-      <div class="match-card"><div class="card-top"><span class="card-num">#66</span><span class="card-grp">G組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇳🇿 ニュージーランド <span class="vs">vs</span> 🇧🇪 ベルギー</div><div class="card-venue">バンクーバー</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#65</span><span class="card-grp">G組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇪🇬 エジプト<span class="rank"> 29</span> <span class="vs">vs</span> 🇮🇷 イラン<span class="rank"> 21</span></div><div class="card-venue">シアトル</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#66</span><span class="card-grp">G組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇳🇿 ニュージーランド<span class="rank"> 95</span> <span class="vs">vs</span> 🇧🇪 ベルギー<span class="rank"> 9</span></div><div class="card-venue">バンクーバー</div></div>
     </div>
   </div>
 
@@ -817,22 +819,22 @@
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>4:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#67</span><span class="card-grp">L組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇵🇦 パナマ <span class="vs">vs</span> 🏴󠁧󠁢󠁥󠁮󠁧󠁿 イングランド</div><div class="card-venue">ニューヨーク</div></div>
-      <div class="match-card"><div class="card-top"><span class="card-num">#68</span><span class="card-grp">L組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇭🇷 クロアチア <span class="vs">vs</span> 🇬🇭 ガーナ</div><div class="card-venue">リンカーンフィラデルフィア</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#67</span><span class="card-grp">L組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇵🇦 パナマ<span class="rank"> 53</span> <span class="vs">vs</span> 🏴󠁧󠁢󠁥󠁮󠁧󠁿 イングランド<span class="rank"> 4</span></div><div class="card-venue">ニューヨーク</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#68</span><span class="card-grp">L組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇭🇷 クロアチア<span class="rank"> 11</span> <span class="vs">vs</span> 🇬🇭 ガーナ<span class="rank"> 65</span></div><div class="card-venue">リンカーンフィラデルフィア</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>6:30</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#69</span><span class="card-grp">K組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇴 コロンビア <span class="vs">vs</span> 🇵🇹 ポルトガル</div><div class="card-venue">ハードロックマイアミ</div></div>
-      <div class="match-card"><div class="card-top"><span class="card-num">#70</span><span class="card-grp">K組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇩 コンゴDR <span class="vs">vs</span> 🇺🇿 ウズベキスタン</div><div class="card-venue">メルセデス・ベンツアトランタ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#69</span><span class="card-grp">K組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇴 コロンビア<span class="rank"> 13</span> <span class="vs">vs</span> 🇵🇹 ポルトガル<span class="rank"> 5</span></div><div class="card-venue">ハードロックマイアミ</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#70</span><span class="card-grp">K組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇨🇩 コンゴDR <span class="vs">vs</span> 🇺🇿 ウズベキスタン<span class="rank"> 62</span></div><div class="card-venue">メルセデス・ベンツアトランタ</div></div>
     </div>
   </div>
   <div class="timeslot">
     <div class="timeslot-label"><div class="tl-time">午後<br>9:00</div><div class="tl-tz">CDT</div></div>
     <div class="timeslot-cards">
-      <div class="match-card"><div class="card-top"><span class="card-num">#71</span><span class="card-grp">J組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇩🇿 アルジェリア <span class="vs">vs</span> 🇦🇹 オーストリア</div><div class="card-venue">アローヘッドカンザスシティ</div></div>
-      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#72</span><span class="card-grp">J組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇯🇴 ヨルダン <span class="vs">vs</span> 🇦🇷 アルゼンチン</div><div class="card-venue">ダラス</div></div>
+      <div class="match-card"><div class="card-top"><span class="card-num">#71</span><span class="card-grp">J組</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇩🇿 アルジェリア<span class="rank"> 36</span> <span class="vs">vs</span> 🇦🇹 オーストリア<span class="rank"> 23</span></div><div class="card-venue">アローヘッドカンザスシティ</div></div>
+      <div class="match-card dallas-venue"><div class="card-top"><span class="card-num">#72</span><span class="card-grp">J組</span><span class="dallas-tag">🤠 ダラス</span></div><div class="simul-note">同時刻キックオフ</div><div class="card-teams">🇯🇴 ヨルダン<span class="rank"> 68</span> <span class="vs">vs</span> 🇦🇷 アルゼンチン<span class="rank"> 1</span></div><div class="card-venue">ダラス</div></div>
     </div>
   </div>
 
