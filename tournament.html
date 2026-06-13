@@ -521,7 +521,7 @@
           return '<span class="fp fp-' + f.toLowerCase() + '"></span>';
         }).join('');
         var rank = getRank(t.team.name);
-        var rankHtml = rank ? '<span class="fifa-rank">FIFA ' + rank + '</span>' : '';
+        var rankHtml = rank ? '<span class="fifa-rank">' + rank + '</span>' : '';
         return '<tr class="' + (q ? 'qualified' : '') + '">'
           + '<td><div class="team-cell">'
           + '<span class="pos-num">' + pos + '</span>'
