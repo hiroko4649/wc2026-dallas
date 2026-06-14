@@ -1222,11 +1222,9 @@
             return [h, a];
           }
           var home, away, sa;
-          if (status === 'IN_PROGRESS' || status === 'PAUSED') {
-            sa = getScore(score && (score.current || score.halfTime));
-          } else {
-            sa = getScore(score && (score.fullTime || score.regularTime));
-          }
+          // このAPIはPAUSED（ハーフタイム）でもfullTimeにスコアが入る
+          // fullTime優先、なければcurrent、なければhalfTimeの順で取得
+          sa = getScore(score && (score.fullTime || score.current || score.halfTime || score.regularTime));
           home = sa[0]; away = sa[1];
           injectResult(card, home, away, status);
           updated++;
