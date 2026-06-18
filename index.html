@@ -1340,6 +1340,7 @@
   function statusLabel(status) {
     if (status === 'FINISHED')    return { text: '終了', cls: 'res-finished' };
     if (status === 'IN_PROGRESS') return { text: 'LIVE', cls: 'res-live' };
+    if (status === 'IN_PLAY')     return { text: 'LIVE', cls: 'res-live' };
     if (status === 'PAUSED')      return { text: 'HT',   cls: 'res-live' };
     if (status === 'TIMED' || status === 'SCHEDULED') return null;
     return null;
@@ -1415,7 +1416,7 @@
         for (var i = 0; i < matches.length; i++) {
           var m = matches[i];
           var status = m.status;
-          if (status !== 'FINISHED' && status !== 'IN_PROGRESS' && status !== 'PAUSED') continue;
+          if (status !== 'FINISHED' && status !== 'IN_PROGRESS' && status !== 'PAUSED' && status !== 'IN_PLAY') continue;
           var homeEN = m.homeTeam && m.homeTeam.name;
           var awayEN = m.awayTeam && m.awayTeam.name;
           if (!homeEN || !awayEN) continue;
