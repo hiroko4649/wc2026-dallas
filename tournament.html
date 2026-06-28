@@ -158,7 +158,7 @@
     display: flex; min-width: 860px; gap: 0;
     align-items: stretch;
   }
-  .round-col { flex: 1; display: flex; flex-direction: column; min-width: 130px; }
+  .round-col { flex: 1; display: flex; flex-direction: column; min-width: 120px; }
   .round-head {
     text-align: center; padding: 9px 4px;
     font-size: 0.68rem; font-weight: 800; color: var(--gold);
@@ -552,14 +552,14 @@
 
   // ── RENDER BRACKET ──
   var STAGE_NAMES = {
-    'ROUND_OF_32':    'ラウンド32',
-    'ROUND_OF_16':    'ラウンド16',
-    'QUARTER_FINALS': '準々決勝',
-    'SEMI_FINALS':    '準決勝',
-    'THIRD_PLACE':    '3位決定戦',
-    'FINAL':          '決勝'
+    'LAST_32':       'ラウンド32',
+    'LAST_16':       'ラウンド16',
+    'QUARTER_FINALS':'準々決勝',
+    'SEMI_FINALS':   '準決勝',
+    'THIRD_PLACE':   '3位決定戦',
+    'FINAL':         '決勝'
   };
-  var STAGE_ORDER = ['ROUND_OF_32','ROUND_OF_16','QUARTER_FINALS','SEMI_FINALS','THIRD_PLACE','FINAL'];
+  var STAGE_ORDER = ['LAST_32','LAST_16','QUARTER_FINALS','SEMI_FINALS','THIRD_PLACE','FINAL'];
 
   function renderBracket(matches) {
     var rounds = {};
